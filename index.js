@@ -2,11 +2,12 @@ const express = require("express");
 const app = express();
 const mongoose = require('mongoose');
 require('dotenv').config();
-
+const userRouter = require('./router/userRouter');
 
 
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
+app.use('/ehotel/user',  userRouter);
 
 mongoose.connect(process.env.DbURI,{
     useNewUrlParser:true,

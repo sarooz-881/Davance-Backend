@@ -9,15 +9,18 @@ const userSchema = new mongoose.Schema ({
         minlength: 5,
         maxlength:20
     },
+
      password: {
          type:String,
          required:true,
          minlength:6
      },
+
     firstName:{
         type: String,
         required: true
     },
+    
     lastName:{
         type: String,
         required:true
@@ -31,7 +34,7 @@ const userSchema = new mongoose.Schema ({
     role: {
         type:String,
         default:'guest',
-        enum:['guest' , 'admin','employee']
+        enum:['guest','admin','hotelOwner']
             },
 
 }, {timestamps: true});
