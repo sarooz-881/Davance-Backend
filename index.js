@@ -3,8 +3,6 @@ const app = express();
 const mongoose = require('mongoose');
 require('dotenv').config();
 const userRouter = require('./router/userRouter');
-
-
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use('/ehotel/user',  userRouter);

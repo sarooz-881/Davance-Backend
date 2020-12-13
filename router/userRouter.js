@@ -3,8 +3,16 @@ const router = express.Router();
 const bcrypt = require("bcryptjs");
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
+const validation = require("../Validator/validator");
 
 router.post("/register", (req, res, next) => {
+  const { errors, isValid } = validation.registerValidator(req.body);
+  if (!isValid) {
+    res.status(400).json({
+      status: "error",
+      message: errors,
+    });
+  }
 let {username, password, firstName, lastName, email, role } = req.body;
   User.findOne({ username})
     .then((user) => {
@@ -51,8 +59,6 @@ let {username, password, firstName, lastName, email, role } = req.body;
 
 }).catch(next);
 })
-
-
 router.post("/login", (req, res, next) => {
   let { username, password } = req.body;
   User.findOne({ username })
@@ -93,5 +99,4 @@ router.post("/login", (req, res, next) => {
     })
     .catch(next);
 });
-
 module.exports = router;
