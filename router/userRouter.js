@@ -42,7 +42,7 @@ let {username, password, firstName, lastName, email, role } = req.body;
                 lastName : user.lastName,
                 role: user.role
             }
-            jwt.sign(payload,process.env.SECRET,  (err, token)=>{
+            jwt.sign(payload,process.env.SECRET, {expiresIn: '2h'} ,  (err, token)=>{
                 if (err){
                     return next(err);
                 }
@@ -83,7 +83,7 @@ router.post("/login", (req, res, next) => {
             lastName: user.lastName,
             role: user.role,
           };
-          jwt.sign(payload, process.env.SECRET, (err, token) => {
+          jwt.sign(payload, process.env.SECRET, {expiresIn: '2h'}, (err, token) => {
             if (err) {
               return next(err);
             }
