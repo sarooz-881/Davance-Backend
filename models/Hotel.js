@@ -42,7 +42,7 @@ const hotelSchema = new mongoose.Schema ({
             type:String,
             required:true
         },
-        
+
         roomType:{
             type:String,
             required:true
@@ -61,11 +61,16 @@ const hotelSchema = new mongoose.Schema ({
             type:Number,
             required:true
         },
+        booked_no:{
+            type:Number,
+            required:true
+        },
         available_no:{
             type:Number,
             required:true
         }
     }],
+
       owner: {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: "User",

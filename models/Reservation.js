@@ -12,13 +12,20 @@ const reservationSchema = new mongoose.Schema ({
         ref: "Hotel",
         required: true,
     },
+
     checkIn:{
         type: date,
         required:true
     },
+    
     checkOut:{
         type: date,
         required:true
     },
+    customer: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Guest",
+        required: true,
+      },
 }, {timestamps: true});
 module.exports = mongoose.model('Reservaton', reservationSchema);
