@@ -32,48 +32,16 @@ const hotelSchema = new mongoose.Schema(
 
     services: [
       {
-        serviceType: {
-          type: String,
-          required: false,
-        },
+        type: String,
+        required: false,
       },
     ],
     room: [
       {
-        room_no: {
-          type: String,
-          required: true,
-        },
-
-        roomType: {
-          type: String,
-          required: true,
-        },
-
-        image: {
-          type: String,
-          required: false,
-        },
-
-        price: {
-          type: String,
-          required: true,
-        },
-        total_no: {
-          type: Number,
-          required: true,
-        },
-        booked_no: {
-          type: Number,
-          required: true,
-        },
-        available_no: {
-          type: Number,
-          required: true,
-        },
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Room",
       },
     ],
-
     owner: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
