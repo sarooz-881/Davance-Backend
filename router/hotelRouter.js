@@ -1,17 +1,23 @@
 const express = require("express");
 const router = express.Router();
 const Hotel = require("../models/Hotel");
-
+const auth = require("./Authorization");
 
 router.route('/')
 .get((req , res, next ) => {
+  if(req.user.role == "hotelOwner")
+  {Hotel.find({owner: req.user.id})
+.then((hotel)=>{
+  res.json(hotel);
+}).catch(next);
+}
     Hotel.find()
     .then ((hotels) => {
         res.json(hotels);
     }).catch(next);
 })
 
-  .post((req, res, next) => {
+.post(auth.verifyhotelOwner,(req, res, next) => {
 let {hotelName, contact, email, description}=req.body;
 Hotel.findOne({ owner: req.user.id })
 .then((hotel) => {
@@ -114,6 +120,7 @@ router
 })
 
 .post((req, res, next) => {
+  
   Hotel.findById(req.params.hotelID).then((hotel) => {
     hotel.services.push(req.body);
     hotel
