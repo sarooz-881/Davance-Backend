@@ -1,6 +1,4 @@
 const mongoose = require("mongoose");
-
-
 const hotelSchema = new mongoose.Schema ({
 
     hotelName :{
@@ -9,7 +7,11 @@ const hotelSchema = new mongoose.Schema ({
     
     },
 
-    address: {country:{type:String,required:true}, state:{type:String,required:true}, street:{type:String,required:true}},
+    address: [{
+        country:{type:String,required:true}, 
+        state:{type:String,required:true}, 
+        street:{type:String,required:true}
+    }],
 
     description:{
         type: String,
@@ -32,44 +34,15 @@ const hotelSchema = new mongoose.Schema ({
     },
 
     services:[{
-        serviceType:{
+            serviceType:{
             type:String,
-            required:false
-        }
+            required:false}
     }],
-    room:[{
-        room_no:{
-            type:String,
-            required:true
-        },
-
-        roomType:{
-            type:String,
-            required:true
-        },
-
-        image:{
-          type:String,
-          required:false
-        },
-
-        price:{
-            type:String,
-            required:true
-        },
-        total_no:{
-            type:Number,
-            required:true
-        },
-        booked_no:{
-            type:Number,
-            required:true
-        },
-        available_no:{
-            type:Number,
-            required:true
-        }
-    }],
+   room:[{
+type:mongoose.Schema.Types.ObjectId,
+ref:"Room",
+required:true
+   }],
 
       owner: {
                 type: mongoose.Schema.Types.ObjectId,

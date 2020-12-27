@@ -12,7 +12,7 @@ router.route('/')
 })
 
   .post((req, res, next) => {
-let {hotelName, description, contact, email, description}=req.body;
+let {hotelName, contact, email, description}=req.body;
 Hotel.findOne({ owner: req.user.id })
 .then((hotel) => {
   if (hotel) {
@@ -20,7 +20,7 @@ Hotel.findOne({ owner: req.user.id })
     err.status = 401;
     return next(err);
   }
-    Hotel.create({hotelName, contact,, email, description, owner : req.user.id})
+    Hotel.create({hotelName,  contact, email, description, owner : req.user.id})
     .then((hotel) => {
 
         res.status(201).json(hotel);
@@ -88,20 +88,56 @@ router
 })
 
 .delete((req, res, next) => {
-  profile
-    .findById(req.params.profileID)
-    .then((profile) => {
-      profile.address = [];
-      profile
+  
+    Hotel.findById(req.params.hotelID)
+    .then((hotel) => {
+      hotel.address = [];
+      hotel
         .save()
-        .then((updatedProfile) => {
-          res.json(updatedProfile.address);
+        .then((updatedHotel) => {
+          res.json(updatedHotel.address);
         })
         .catch(next);
     })
     .catch(next);
 });
 
+router
+.route("/:hotelID/services")
+.get((req, res, next) => {
+  Hotel
+    .findById(req.params.hotelID)
+    .then((hotel) => {
+      res.json(hotel.services);
+    })
+    .catch(next);
+})
 
+.post((req, res, next) => {
+  Hotel.findById(req.params.hotelID).then((hotel) => {
+    hotel.services.push(req.body);
+    hotel
+      .save()
+      .then((updatedHotel) => {
+        res.status(201).json(updatedHotel);
+      })
+      .catch(next);
+  });
+})
+
+.delete((req, res, next) => {
+  
+    Hotel.findById(req.params.hotelID)
+    .then((hotel) => {
+      hotel.services = [];
+      hotel
+        .save()
+        .then((updatedHotel) => {
+          res.json(updatedHotel.services);
+        })
+        .catch(next);
+    })
+    .catch(next);
+});
 
 module.exports = router;
