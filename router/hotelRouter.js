@@ -26,7 +26,8 @@ Hotel.findOne({ owner: req.user.id })
     err.status = 401;
     return next(err);
   }
-    Hotel.create({hotelName,  contact, email, description, owner : req.user.id})
+    Hotel.create({hotelName,  contact, email, description, 
+      owner : req.user.id})
     .then((hotel) => {
 
         res.status(201).json(hotel);
