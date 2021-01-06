@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 const userRouter = require('./router/userRouter');
 const hotelRouter = require('./router/hotelRouter');
+
 const auth = require('./router/Authorization');
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));

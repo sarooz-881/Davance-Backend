@@ -38,10 +38,10 @@ const hotelSchema = new mongoose.Schema ({
             type:String,
             required:false}
     }],
-   room:[{
+
+rooms:[{   
 type:mongoose.Schema.Types.ObjectId,
-ref:"Room",
-required:true
+ref:"Room"
    }],
 
       owner: {
