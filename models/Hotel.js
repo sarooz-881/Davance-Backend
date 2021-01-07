@@ -7,6 +7,22 @@ const hotelSchema = new mongoose.Schema ({
     
     },
 
+hotelOwner:[{
+
+ownerName : {    
+type:String
+},
+email:{
+    type:String
+},
+contact:{
+    type:String
+}
+
+}],
+
+
+
     address: [{
         country:{type:String,required:true}, 
         state:{type:String,required:true}, 
@@ -43,7 +59,7 @@ rooms:[{
 type:mongoose.Schema.Types.ObjectId,
 ref:"Room"
    }],
-
+   
       owner: {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: "User",

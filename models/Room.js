@@ -24,7 +24,10 @@ const roomSchema = new mongoose.Schema ({
         default:false
 
     },
-
+    
+comment:{
+    type:String,
+},
     hotel: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Hotel",

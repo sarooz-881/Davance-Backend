@@ -49,6 +49,7 @@ Hotel.findOne({ owner: req.user.id })
 router.route('/:hotelID')
 .get((req, res, next) =>{
     Hotel.findById(req.params.hotelID)
+    .populate('rooms')
     .then((hotel) => {
         if (hotel !== null){
         res.json(hotel);}
