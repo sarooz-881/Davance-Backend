@@ -3,12 +3,19 @@ const app = express();
 const mongoose = require('mongoose');
 require('dotenv').config();
 const userRouter = require('./router/userRouter');
+const guestRouter = require('./router/guestRouter');
 const hotelRouter = require('./router/hotelRouter');
+const uploadImage = require('./router/UploadImage');
+const path = require('path');
 const auth = require('./router/Authorization');
+
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use('/ehotel/user',  userRouter);
 app.use('/ehotel/hotel',auth.verifyUser, hotelRouter);
+app.use('/ehotel/guest', auth.verifyUser, guestRouter);
+app.use('/ehotel/hotel/upload/image',uploadImage);
+app.use(express.static(path.join(__dirname,'gallery')));
 
 mongoose.connect(process.env.DbURI,{
     useNewUrlParser:true,

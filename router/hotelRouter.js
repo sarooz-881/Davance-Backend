@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Hotel = require("../models/Hotel");
+const Room = require("../models/Room");
 const auth = require("./Authorization");
 
 router.route('/')
@@ -49,6 +50,7 @@ Hotel.findOne({ owner: req.user.id })
 router.route('/:hotelID')
 .get((req, res, next) =>{
     Hotel.findById(req.params.hotelID)
+    .populate('rooms')
     .then((hotel) => {
         if (hotel !== null){
         res.json(hotel);}
@@ -147,5 +149,73 @@ router
     })
     .catch(next);
 });
+
+router
+.route("/:hotelID/rooms")
+.get((req, res, next) =>{
+  Hotel.findById(req.params.hotelID)
+  .populate("rooms")
+  .then((hotel) => {
+    res.json(hotel.rooms);
+  }).catch(next);
+})
+  
+.post(auth.verifyhotelOwner, (req, res, next) =>{
+  let{room_no , roomType, image, price, isReserved,hotel }=req.body;
+  Room.create({
+    room_no,
+    roomType,
+    image,
+    price,
+    isReserved,
+    hotel:req.params.hotelID,
+    owner:req.user.id,
+  }).then((room)=>{
+Hotel
+.findById(req.params.hotelID)
+.then(hotel=>{
+  hotel.rooms.push(room.id)
+  hotel.save()
+}).catch(next);
+res.status(201).json(room);
+  }).catch(next);
+})
+
+router
+.route('/:hotelID/rooms/:roomID')
+.get((req,res,next) =>{
+  Room.findById(req.params.roomID)
+ 
+  .then((room) =>{
+    if(room != null){
+      res.json(room);
+    } else {
+      let err = new Error("File not found!");
+      err.status = 404;
+      next(err);
+    }
+  }).catch(next);
+
+})
+
+.put((req,res, next) => {
+  Room.findById(req.params.roomID)
+  .then((room)=>{
+    Room.findByIdAndUpdate(
+      req.params.roomID,
+      {$set: req.body},
+      {new: true}
+    ).then((updatedRoom) => {
+      res.json(updatedRoom);
+    }).catch(next);
+  }).catch(next);
+})
+
+.delete((req, res, next) =>{
+  Room.deleteOne({_id: req.params.roomID})
+  .then((reply) =>{
+    res.json(reply);
+  }).catch(next);
+})
 
 module.exports = router;

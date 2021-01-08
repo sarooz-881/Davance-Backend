@@ -11,7 +11,7 @@ const profileSchema = new mongoose.Schema(
       required: true,
     },
     
-     id:{
+     citizen_id:{
        type:String
      },
 
@@ -49,6 +49,14 @@ const profileSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
+    guestImage : {
+      type: Buffer
+    },
+    balance : {
+      type: Number,
+      maxlength: 10,
+      default: 5000
+    }
   },
   { timestamps: true }
 );
