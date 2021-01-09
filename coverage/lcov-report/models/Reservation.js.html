@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for models/Room.js</title>
+    <title>Code coverage report for models/Reservation.js</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../prettify.css" />
     <link rel="stylesheet" href="../base.css" />
@@ -19,7 +19,7 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../index.html">All files</a> / <a href="index.html">models</a> Room.js</h1>
+        <h1><a href="../index.html">All files</a> / <a href="index.html">models</a> Reservation.js</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
@@ -87,18 +87,9 @@
 <a name='L28'></a><a href='#L28'>28</a>
 <a name='L29'></a><a href='#L29'>29</a>
 <a name='L30'></a><a href='#L30'>30</a>
-<a name='L31'></a><a href='#L31'>31</a>
-<a name='L32'></a><a href='#L32'>32</a>
-<a name='L33'></a><a href='#L33'>33</a>
-<a name='L34'></a><a href='#L34'>34</a>
-<a name='L35'></a><a href='#L35'>35</a>
-<a name='L36'></a><a href='#L36'>36</a>
-<a name='L37'></a><a href='#L37'>37</a>
-<a name='L38'></a><a href='#L38'>38</a>
-<a name='L39'></a><a href='#L39'>39</a>
-<a name='L40'></a><a href='#L40'>40</a>
-<a name='L41'></a><a href='#L41'>41</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
+<a name='L31'></a><a href='#L31'>31</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -126,58 +117,37 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span></td><td class="text"><pre class="prettyprint lang-js">const mongoose = require("mongoose");
-const roomSchema = new mongoose.Schema ({ 
-    room_no:{
-        type:String,
-        required:true
-    },
+<span class="cline-any cline-yes">1x</span></td><td class="text"><pre class="prettyprint lang-js">const mongoose = require("mongoose");
 &nbsp;
-    roomType:{
-        type:String,
-        required:true
-    },
+const reservationSchema = new mongoose.Schema ({
 &nbsp;
-    image:{
-      type:String,
-      required:false
-    },
-&nbsp;
-    price:{
-        type:String,
-        required:true
-    },
-    isReserved:{
-        type:Boolean,
-        default:false
-&nbsp;
-    },
-    
-comment:{
-    type:String,
-},
-    hotel: {
+    hotel :{
         type: mongoose.Schema.Types.ObjectId,
         ref: "Hotel",
-      },
-owner:{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-},
+        required: true,
+    },
+    room: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Hotel",
+        required: true,
+    },
 &nbsp;
-},{timestamps: true})
-module.exports = mongoose.model('Room', roomSchema);</pre></td></tr></table></pre>
+    checkIn:{
+        type: Date,
+        required:true
+    },
+    
+    checkOut:{
+        type: Date,
+        required:true
+    },
+    customer: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Guest",
+        required: true,
+      },
+}, {timestamps: true});
+module.exports = mongoose.model('Reservaton', reservationSchema);</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
