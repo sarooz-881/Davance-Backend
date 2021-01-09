@@ -14,6 +14,7 @@ require('./setup');
 
 let token;
 let hotelID;
+let roomID;
 beforeAll(() => {
     return request(app).post('/users/register')
         .send({
@@ -66,7 +67,7 @@ beforeAll(() => {
             expect(res.statusCode).toBe(200);
         })
     })
-    test('Should not be able to register hotel details', () => {
+    test('Should not be able to register hotel twice', () => {
          return request(app).post('/Hotel')
          .set('authorization', token)
          .send({
@@ -84,7 +85,7 @@ beforeAll(() => {
              expect(res.statusCode).toBe(401);
          })
      })
-     test('should be able to get donation details by id', () => {
+     test('should be able to get hotel details by id', () => {
         return request(app).get(`/hotel/${hotelID}`)
         .set('authorization', token)
         .then((res)=>{
@@ -93,7 +94,7 @@ beforeAll(() => {
         })
     })
 
-    test('should be able to update donation details', ()=>{
+    test('should be able to update hotel details', ()=>{
         return request(app).put(`/hotel/${hotelID}`)
         .set('authorization', token)
         .send({
@@ -113,7 +114,7 @@ beforeAll(() => {
             expect(res.statusCode).toBe(200);
         })
     })
-    test('should be able to get donation details by id', () => {
+    test('should be able to get hotel address by id', () => {
         return request(app).get(`/hotel/${hotelID}/address`)
         .set('authorization', token)
         .then((res)=>{
@@ -121,7 +122,7 @@ beforeAll(() => {
             expect(res.statusCode).toBe(200);
         })
     })
-    test('Should be able to register hotel details', () => {
+    test('Should be able to post hotel address', () => {
         return request(app).post(`/hotel/${hotelID}/address`)
         .set('authorization', token)
         .send({
@@ -131,6 +132,114 @@ beforeAll(() => {
         })
         .then((res)=> {
             expect(res.statusCode).toBe(201);
+        })
+    })
+    test('should be able to get hotel services by id', () => {
+        return request(app).get(`/hotel/${hotelID}/services`)
+        .set('authorization', token)
+        .then((res)=>{
+            
+            expect(res.statusCode).toBe(200);
+        })
+    })
+    test('Should be able to post hotel address', () => {
+        return request(app).post(`/hotel/${hotelID}/services`)
+        .set('authorization', token)
+        .send({
+           services:''
+        })
+        .then((res)=> {
+            expect(res.statusCode).toBe(201);
+        })
+    })
+    test('should be able to get hotel roomss by id', () => {
+        return request(app).get(`/hotel/${hotelID}/rooms`)
+        .set('authorization', token)
+        .then((res)=>{
+            
+            expect(res.statusCode).toBe(200);
+        })
+    })
+    test('Should be able to post hotel rooms', () => {
+        return request(app).post(`/hotel/${hotelID}/rooms`)
+        .set('authorization', token)
+        .send({
+            room_no: '2',
+            roomType:'Basic',
+            image: '',
+            price:'1000',
+            isReserved:'false'
+        })
+        .then((res)=> {
+            roomID = res.body._id
+            expect(res.statusCode).toBe(201);
+        })
+    })
+    test('should be able to get hotel rooms by room id', () => {
+        return request(app).get(`/hotel/${hotelID}/rooms/${roomID}`)
+        .set('authorization', token)
+        .then((res)=>{
+            
+            expect(res.statusCode).toBe(200);
+        })
+    })
+    test('should be able to update room details by id', ()=>{
+        return request(app).put(`/hotel/${hotelID}/rooms/${roomID}`)
+        .set('authorization', token)
+        .send({
+        })
+
+        .then((res)=>{
+            
+            expect(res.statusCode).toBe(200);
+        })
+    })
+    test(' should able to delete room by id', ()=> {
+        return request(app).delete(`/hotel/${hotelID}/rooms/${roomID}`)
+        .set('authorization', token)
+        .then((res) => {
+            
+            expect(res.statusCode).toBe(200);
+        })
+    })
+    test(' should able to delete hotel services by id', ()=> {
+        return request(app).delete(`/hotel/${hotelID}/services`)
+        .set('authorization', token)
+        .then((res) => {
+            
+            expect(res.statusCode).toBe(200);
+        })
+    })
+    test(' should able to delete hotel address by id', ()=> {
+        return request(app).delete(`/hotel/${hotelID}/address`)
+        .set('authorization', token)
+        .then((res) => {
+            
+            expect(res.statusCode).toBe(200);
+        })
+    })
+    test('should be able to delete hotel', ()=> {
+        return request (app).delete('/Hotel')
+        .set('authorization', token)
+        .then((res)=> {
+            
+            expect(res.statusCode).toBe(200);
+        })
+    })
+    test('should show the "file not found" message if there is no hotel details found', () => {
+        return request(app).get(`/hotel/${hotelID}`)
+        .set('authorization', token)
+        .then((res)=>{
+            
+            expect(res.statusCode).toBe(404);
+        })
+    })
+    test(' should show the "file not found" message if there is noroom details found', ()=> {
+        return request(app).get(`/hotel/${hotelID}/rooms/${roomID}`)
+        .set('authorization', token)
+        .then((res) => {
+            
+            expect(res.statusCode).toBe(404);
         })
     })
  })

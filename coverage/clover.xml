@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1610126597584" clover="3.2.0">
-  <project timestamp="1610126597584" name="All files">
-    <metrics statements="198" coveredstatements="125" conditionals="50" coveredconditionals="30" methods="60" coveredmethods="32" elements="308" coveredelements="187" complexity="0" loc="198" ncloc="198" packages="4" files="8" classes="8"/>
+<coverage generated="1610167787593" clover="3.2.0">
+  <project timestamp="1610167787593" name="All files">
+    <metrics statements="198" coveredstatements="163" conditionals="50" coveredconditionals="33" methods="60" coveredmethods="57" elements="308" coveredelements="253" complexity="0" loc="198" ncloc="198" packages="4" files="8" classes="8"/>
     <package name="models">
       <metrics statements="9" coveredstatements="9" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       <file name="Hotel.js" path="D:\AgileGroup\Davance-Backend\models\Hotel.js">
@@ -24,24 +24,24 @@
       </file>
     </package>
     <package name="router">
-      <metrics statements="159" coveredstatements="90" conditionals="36" coveredconditionals="18" methods="54" coveredmethods="27"/>
+      <metrics statements="159" coveredstatements="128" conditionals="36" coveredconditionals="21" methods="54" coveredmethods="52"/>
       <file name="Authorization.js" path="D:\AgileGroup\Davance-Backend\router\Authorization.js">
         <metrics statements="43" coveredstatements="14" conditionals="16" coveredconditionals="4" methods="5" coveredmethods="3"/>
         <line num="1" count="1" type="stmt"/>
-        <line num="4" count="7" type="stmt"/>
-        <line num="5" count="7" type="cond" truecount="1" falsecount="1"/>
+        <line num="4" count="19" type="stmt"/>
+        <line num="5" count="19" type="cond" truecount="1" falsecount="1"/>
         <line num="6" count="0" type="stmt"/>
         <line num="7" count="0" type="stmt"/>
         <line num="8" count="0" type="stmt"/>
-        <line num="10" count="7" type="stmt"/>
-        <line num="11" count="7" type="stmt"/>
-        <line num="12" count="7" type="stmt"/>
-        <line num="13" count="7" type="cond" truecount="1" falsecount="1"/>
+        <line num="10" count="19" type="stmt"/>
+        <line num="11" count="19" type="stmt"/>
+        <line num="12" count="19" type="stmt"/>
+        <line num="13" count="19" type="cond" truecount="1" falsecount="1"/>
         <line num="14" count="0" type="stmt"/>
         <line num="15" count="0" type="stmt"/>
-        <line num="17" count="7" type="stmt"/>
-        <line num="18" count="7" type="stmt"/>
-        <line num="19" count="7" type="stmt"/>
+        <line num="17" count="19" type="stmt"/>
+        <line num="18" count="19" type="stmt"/>
+        <line num="19" count="19" type="stmt"/>
         <line num="23" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="24" count="0" type="stmt"/>
         <line num="25" count="0" type="stmt"/>
@@ -51,15 +51,15 @@
         <line num="29" count="0" type="stmt"/>
         <line num="30" count="0" type="stmt"/>
         <line num="32" count="0" type="stmt"/>
-        <line num="36" count="2" type="cond" truecount="1" falsecount="1"/>
+        <line num="36" count="3" type="cond" truecount="1" falsecount="1"/>
         <line num="37" count="0" type="stmt"/>
         <line num="38" count="0" type="stmt"/>
         <line num="39" count="0" type="stmt"/>
-        <line num="40" count="2" type="cond" truecount="1" falsecount="1"/>
+        <line num="40" count="3" type="cond" truecount="1" falsecount="1"/>
         <line num="41" count="0" type="stmt"/>
         <line num="42" count="0" type="stmt"/>
         <line num="43" count="0" type="stmt"/>
-        <line num="45" count="2" type="stmt"/>
+        <line num="45" count="3" type="stmt"/>
         <line num="49" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="50" count="0" type="stmt"/>
         <line num="51" count="0" type="stmt"/>
@@ -72,7 +72,7 @@
         <line num="61" count="1" type="stmt"/>
       </file>
       <file name="hotelRouter.js" path="D:\AgileGroup\Davance-Backend\router\hotelRouter.js">
-        <metrics statements="75" coveredstatements="37" conditionals="8" coveredconditionals="4" methods="40" coveredmethods="15"/>
+        <metrics statements="75" coveredstatements="75" conditionals="8" coveredconditionals="7" methods="40" coveredmethods="40"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
@@ -92,15 +92,15 @@
         <line num="28" count="1" type="stmt"/>
         <line num="30" count="1" type="stmt"/>
         <line num="34" count="1" type="stmt"/>
-        <line num="42" count="0" type="stmt"/>
-        <line num="44" count="0" type="stmt"/>
+        <line num="42" count="1" type="stmt"/>
+        <line num="44" count="1" type="stmt"/>
         <line num="50" count="1" type="stmt"/>
-        <line num="52" count="1" type="stmt"/>
-        <line num="55" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="52" count="2" type="stmt"/>
+        <line num="55" count="2" type="cond" truecount="2" falsecount="0"/>
         <line num="56" count="1" type="stmt"/>
-        <line num="58" count="0" type="stmt"/>
-        <line num="59" count="0" type="stmt"/>
-        <line num="60" count="0" type="stmt"/>
+        <line num="58" count="1" type="stmt"/>
+        <line num="59" count="1" type="stmt"/>
+        <line num="60" count="1" type="stmt"/>
         <line num="67" count="1" type="stmt"/>
         <line num="69" count="1" type="stmt"/>
         <line num="75" count="1" type="stmt"/>
@@ -111,43 +111,43 @@
         <line num="89" count="1" type="stmt"/>
         <line num="90" count="1" type="stmt"/>
         <line num="93" count="1" type="stmt"/>
-        <line num="101" count="0" type="stmt"/>
-        <line num="103" count="0" type="stmt"/>
-        <line num="104" count="0" type="stmt"/>
-        <line num="107" count="0" type="stmt"/>
-        <line num="114" count="1" type="stmt"/>
-        <line num="117" count="0" type="stmt"/>
-        <line num="120" count="0" type="stmt"/>
-        <line num="127" count="0" type="stmt"/>
-        <line num="128" count="0" type="stmt"/>
-        <line num="129" count="0" type="stmt"/>
-        <line num="132" count="0" type="stmt"/>
-        <line num="140" count="0" type="stmt"/>
-        <line num="142" count="0" type="stmt"/>
-        <line num="143" count="0" type="stmt"/>
-        <line num="146" count="0" type="stmt"/>
-        <line num="153" count="1" type="stmt"/>
-        <line num="156" count="0" type="stmt"/>
-        <line num="159" count="0" type="stmt"/>
-        <line num="164" count="0" type="stmt"/>
-        <line num="165" count="0" type="stmt"/>
-        <line num="174" count="0" type="stmt"/>
-        <line num="177" count="0" type="stmt"/>
-        <line num="178" count="0" type="stmt"/>
-        <line num="180" count="0" type="stmt"/>
-        <line num="184" count="1" type="stmt"/>
-        <line num="187" count="0" type="stmt"/>
-        <line num="190" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="191" count="0" type="stmt"/>
-        <line num="193" count="0" type="stmt"/>
-        <line num="194" count="0" type="stmt"/>
-        <line num="195" count="0" type="stmt"/>
-        <line num="202" count="0" type="stmt"/>
-        <line num="204" count="0" type="stmt"/>
-        <line num="209" count="0" type="stmt"/>
-        <line num="215" count="0" type="stmt"/>
-        <line num="217" count="0" type="stmt"/>
-        <line num="221" count="1" type="stmt"/>
+        <line num="100" count="1" type="stmt"/>
+        <line num="102" count="1" type="stmt"/>
+        <line num="103" count="1" type="stmt"/>
+        <line num="106" count="1" type="stmt"/>
+        <line num="113" count="1" type="stmt"/>
+        <line num="116" count="1" type="stmt"/>
+        <line num="119" count="1" type="stmt"/>
+        <line num="126" count="1" type="stmt"/>
+        <line num="127" count="1" type="stmt"/>
+        <line num="128" count="1" type="stmt"/>
+        <line num="131" count="1" type="stmt"/>
+        <line num="139" count="1" type="stmt"/>
+        <line num="141" count="1" type="stmt"/>
+        <line num="142" count="1" type="stmt"/>
+        <line num="145" count="1" type="stmt"/>
+        <line num="152" count="1" type="stmt"/>
+        <line num="155" count="1" type="stmt"/>
+        <line num="158" count="1" type="stmt"/>
+        <line num="163" count="1" type="stmt"/>
+        <line num="164" count="1" type="stmt"/>
+        <line num="173" count="1" type="stmt"/>
+        <line num="176" count="1" type="stmt"/>
+        <line num="177" count="1" type="stmt"/>
+        <line num="179" count="1" type="stmt"/>
+        <line num="183" count="1" type="stmt"/>
+        <line num="186" count="2" type="stmt"/>
+        <line num="189" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="190" count="1" type="stmt"/>
+        <line num="192" count="1" type="stmt"/>
+        <line num="193" count="1" type="stmt"/>
+        <line num="194" count="1" type="stmt"/>
+        <line num="201" count="1" type="stmt"/>
+        <line num="203" count="1" type="stmt"/>
+        <line num="208" count="1" type="stmt"/>
+        <line num="214" count="1" type="stmt"/>
+        <line num="216" count="1" type="stmt"/>
+        <line num="220" count="1" type="stmt"/>
       </file>
       <file name="userRouter.js" path="D:\AgileGroup\Davance-Backend\router\userRouter.js">
         <metrics statements="41" coveredstatements="39" conditionals="12" coveredconditionals="10" methods="9" coveredmethods="9"/>

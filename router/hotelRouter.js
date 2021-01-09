@@ -97,7 +97,6 @@ router
 })
 
 .delete((req, res, next) => {
-  
     Hotel.findById(req.params.hotelID)
     .then((hotel) => {
       hotel.address = [];
