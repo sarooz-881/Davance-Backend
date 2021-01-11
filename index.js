@@ -8,7 +8,10 @@ const hotelRouter = require('./router/hotelRouter');
 const uploadImage = require('./router/UploadImage');
 const path = require('path');
 const auth = require('./router/Authorization');
+const cors = require('cors')
 
+
+app.use(cors('*'));
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use('/ehotel/user',  userRouter);
