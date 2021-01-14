@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Hotel = require("../models/Hotel");
+const Reservation = require("../models/Reservation");
 const Room = require("../models/Room");
 const auth = require("./Authorization");
 
@@ -207,6 +208,28 @@ router.delete("/:hotelID/services/:serviceID", async (req, res) => {
     res.status(400).send({ error: error.message });
   }
 });
+
+router
+.route('/:hotelID/reservations')
+.get((req,res,next) =>{
+  Reservation.findById({hotel:req.params.hotelID})
+  .populate('room')
+  .populate('customer')
+  .then((reservations) =>{
+    res.json(reservations);
+  }).catch(next);
+})
+
+router
+.route('/:hotelID/reservations/:resID')
+.get((req,res,next) =>{
+  Reservation.findById(req.params.resID)
+  .populate('room')
+  .populate('customer')
+  .then((reservation) =>{
+res.json(reservation);
+  }).catch(next);
+})
 
 router
   .route("/:hotelID/rooms")

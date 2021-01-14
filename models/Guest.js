@@ -56,7 +56,13 @@ const profileSchema = new mongoose.Schema(
       type: Number,
       maxlength: 10,
       default: 5000
-    }
+    },
+    reservation: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Reservation",
+      },
+    ],
   },
   { timestamps: true }
 );

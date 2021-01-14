@@ -6,6 +6,7 @@ const validation = require("../validator/validator");
 const Hotel = require("../models/Hotel");
 const Reservation = require('../models/Reservation');
 const Room = require("../models/Room");
+const { populate } = require("../models/Hotel");
 
 
 router
@@ -14,6 +15,7 @@ router
     if (req.user.role === "guest") {
         Guest
         .findOne({ owner: req.user.id })
+        .populate('reservation')
         .then((guest) => {
           res.json(guest);
         })
@@ -137,6 +139,15 @@ router
   .route("/:guestID/hotels/:hotelID/rooms/:roomID/book")
   .post((req, res, next) => {
     let { hotel, room, checkIn, checkOut, customer } = req.body;
+    Room.findById(req.params.roomID)
+    .then((room)=>{
+      if(room.isReserved == true)
+      {
+        let err = new Error ("Sorry! The room has been already reserved!");
+        err.status=401;
+        return next (err);
+      }
+   else{
       Reservation.create({
           hotel:req.params.hotelID,
           room:req.params.roomID,
@@ -147,14 +158,60 @@ router
           Room.findById(req.params.roomID)
           .then((room) =>{
               Room.findByIdAndUpdate(req.params.roomID,
-               {$set:{isReserved:true}},
+               {$set:{isReserved:true, reservation:result._id}},
                {new:true} )
                .then((updatedRoom) => {
+                Guest.findById(req.params.guestID)
+                  .then((guest)=>{
+                    guest.reservation.push(result._id);
+                    guest.save();
+                  }).catch(next);
                 res.json(updatedRoom);
               })
               .catch(next);
           }).catch(next);
+         
       }).catch(next);
+    }
+    }).catch(next);
   });
 
+  router
+  .route("/:guestID/reservations")
+  .get((req,res,next) => {
+  Guest.findById(req.params.guestID)
+  .populate("reservation")
+  .then((guest) => {
+    res.json(guest.reservation);
+  }).catch(next);
+  })
+
+  router
+  .route("/:guestID/reservations/:resID")
+  .get((req, res, next) =>{
+    Reservation.findById(req.params.resID)
+   .populate('hotel')
+   .populate('room')
+    .then((reservation)=>{
+      res.json(reservation);
+    }).catch(next);
+  })
+
+  router
+  .route("/:guestID/reservations/:resID/cancelBooking")
+  .delete((req, res, next) =>{
+    Reservation.deleteOne({_id:req.params.resID})
+    .then((result) =>{
+      Room.findOne({reservation:req.params.resID})
+      .then((room) =>{
+        Room.findByIdAndUpdate(room._id,
+          {$set:{isReserved:false, reservation:null}},
+          {new:true})
+          .then((updatedRoom) =>{
+            res.json("Cancelation Successful!");
+          }).catch(next);
+        
+      }).catch(next);
+    }).catch(next);
+  })
 module.exports = router;
