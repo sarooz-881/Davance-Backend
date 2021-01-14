@@ -212,7 +212,7 @@ router.delete("/:hotelID/services/:serviceID", async (req, res) => {
 router
 .route('/:hotelID/reservations')
 .get((req,res,next) =>{
-  Reservation.findById({hotel:req.params.hotelID})
+  Reservation.find({hotel:req.params.hotelID})
   .populate('room')
   .populate('customer')
   .then((reservations) =>{
