@@ -32,6 +32,11 @@ comment:{
         type: mongoose.Schema.Types.ObjectId,
         ref: "Hotel",
       },
+reservation:{
+type:mongoose.Schema.Types.ObjectId,
+ref:"Reservation"
+},
+
 owner:{
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",

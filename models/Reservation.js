@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-
 const reservationSchema = new mongoose.Schema ({
 
     hotel :{
@@ -9,7 +8,7 @@ const reservationSchema = new mongoose.Schema ({
     },
     room: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Hotel",
+        ref: "Room",
         required: true,
     },
 
@@ -27,5 +26,7 @@ const reservationSchema = new mongoose.Schema ({
         ref: "Guest",
         required: true,
       },
-}, {timestamps: true});
-module.exports = mongoose.model('Reservaton', reservationSchema);
+}, {timestamps: true}
+);
+
+module.exports = mongoose.model('Reservation', reservationSchema);

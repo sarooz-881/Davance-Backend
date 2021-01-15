@@ -15,6 +15,9 @@ require('./setup');
 let token;
 let hotelID;
 let roomID;
+let ownerID;
+let resID;
+let serviceID;
 beforeAll(() => {
     return request(app).post('/users/register')
         .send({
@@ -149,6 +152,37 @@ beforeAll(() => {
            services:''
         })
         .then((res)=> {
+            serviceID = res.body_id
+            console.log(res.body)
+            
+            expect(res.statusCode).toBe(201);
+        })
+    })
+    test('hotel owner Should be able to post hotel', () => {
+        return request(app).post(`/hotel/${hotelID}/hotelOwner`)
+        .set('authorization', token)
+        .send({
+        })
+        .then((res)=> {
+            ownerID = res.body._id
+            expect(res.statusCode).toBe(201);
+        })
+    })
+    test('hotel owner should be able to get hotel ', () => {
+        return request(app).get(`/hotel/${hotelID}/hotelOwner`)
+        .set('authorization', token)
+        .then((res)=>{
+            
+            expect(res.statusCode).toBe(200);
+        })
+    })
+    test('hotel owner Should be able to post hotel', () => {
+        return request(app).patch(`/hotel/${hotelID}/hotelOwner/${ownerID}`)
+        .set('authorization', token)
+        .send({
+        })
+        .then((res)=> {
+         
             expect(res.statusCode).toBe(201);
         })
     })
@@ -194,11 +228,35 @@ beforeAll(() => {
             expect(res.statusCode).toBe(200);
         })
     })
+    test('should be able to get reservations', () => {
+        return request(app).get(`/hotel/${hotelID}/reservations`)
+        .set('authorization', token)
+        .then((res)=>{
+            
+            expect(res.statusCode).toBe(200);
+        })
+    })
+    test('should be able to get reservations', () => {
+        return request(app).get(`/hotel/${hotelID}/reservations/${resID}`)
+        .set('authorization', token)
+        .then((res)=>{
+            
+            expect(res.statusCode).toBe(200);
+        })
+    })
     test(' should able to delete room by id', ()=> {
         return request(app).delete(`/hotel/${hotelID}/rooms/${roomID}`)
         .set('authorization', token)
         .then((res) => {
             
+            expect(res.statusCode).toBe(200);
+        })
+    })
+    test(' should able to delete hotel services by id', ()=> {
+        return request(app).delete(`/hotel/${hotelID}/services/${serviceID}`)
+        .set('authorization', token)
+        .then((res) => {
+            console.log(res)
             expect(res.statusCode).toBe(200);
         })
     })

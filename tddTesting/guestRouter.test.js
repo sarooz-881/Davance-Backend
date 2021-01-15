@@ -20,6 +20,7 @@ let hotelID;
 let hotelID1
 let roomID;
 let guestID;
+let resID;
 beforeAll(() => {
     return request(app).post('/users/register')
     .send({
@@ -200,9 +201,44 @@ test('Guest should be able to book room', ()=> {
         checkOut:'2020/2/4'
     })
     .then((res)=> {
+        resID = res.body._id
         expect(res.statusCode).toBe(200);
     })
 })
+test('"Sorry! The room has been already reserved!" message should be shown if room is already booked', ()=> {
+    return request (app).post(`/ehotel/guest/${guestID}/hotels/${hotelID}/rooms/${roomID}/book`)
+    .set('authorization', token)
+    .send({
+        checkIn:'2020/2/3',
+        checkOut:'2020/2/4'
+    })
+    .then((res)=> {
+        expect(res.statusCode).toBe(401);
+    })
+})
+test('guest should be able to get reservation detail by id', ()=> {
+    return request (app).get(`/ehotel/guest/${guestID}/reservations`)
+    .set('authorization', token)
+    .then((res)=> {
+        expect(res.statusCode).toBe(200);
+    })
+})
+
+test('guest should be able to get reservation detail by id', ()=> {
+    return request (app).get(`/ehotel/guest/${guestID}/reservations/${resID}`)
+    .set('authorization', token)
+    .then((res)=> {
+        expect(res.statusCode).toBe(200);
+    })
+})
+// test('guest should be able to cancel booking', ()=> {
+//     return request (app).delete(`/ehotel/guest/${guestID}/reservations/${resID}/cancelBooking`)
+//     .set('authorization', token)
+//     .then((res)=> {
+//         console.log(res)
+//         expect(res.statusCode).toBe(200);
+//     })
+// })
 test('Should not be able to register guest more than once', () => {
     return request(app).post('/ehotel/guest')
     .set('authorization', token)
