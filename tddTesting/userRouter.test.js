@@ -26,6 +26,34 @@ describe('Test of User Route', () => {
                 expect(res.statusCode).toBe(200);
             })
     })
+    test('Password must contain alphabets and numbers to register a user', () => {
+        return request(app).post('/users/register')
+            .send({
+                username: 'bikash12',
+                password: 'bikashii',
+                firstName: 'Bikash',
+                lastName: 'Dhakal',
+                email: 'bikash@gmail.com',
+                role: 'guest'
+            })
+            .then((res) => {
+                expect(res.statusCode).toBe(400);
+            })
+    })
+    test('email must be in proper format to register a user', () => {
+        return request(app).post('/users/register')
+            .send({
+                username: 'bikash12388',
+                password: 'bikashii2',
+                firstName: 'Bikash',
+                lastName: 'Dhakal',
+                email: 'fghjkjhg',
+                role: 'guest'
+            })
+            .then((res) => {
+                expect(res.statusCode).toBe(400);
+            })
+    })
     test('user name should be unique to register', () => {
         return request(app).post('/users/register')
             .send({

@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">92.73% </span>
+                <span class="strong">98.18% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>102/110</span>
+                <span class='fraction'>108/110</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">71.43% </span>
+                <span class="strong">92.86% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>10/14</span>
+                <span class='fraction'>13/14</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">98.04% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>50/51</span>
+                <span class='fraction'>51/51</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">92.73% </span>
+                <span class="strong">98.18% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>102/110</span>
+                <span class='fraction'>108/110</span>
             </div>
         
             
@@ -546,10 +546,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -560,18 +560,18 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -595,7 +595,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -857,8 +857,8 @@ router
 router.patch("/:hotelID/hotelOwner/:ownerID", async (req, res) =&gt; {
   try {
     const hotel = await Hotel.findById(req.params.hotelID);
-    <span class="missing-if-branch" title="if path not taken" >I</span>if (!hotel) {
-<span class="cstat-no" title="statement not covered" >      return res.status(404).send({ "Not found": "Hotel not found..." });</span>
+    if (!hotel) {
+      return res.status(404).send({ "Not found": "Hotel not found..." });
     }
     hotel.hotelOwner = req.body;
     await hotel.save();
@@ -871,16 +871,16 @@ router.patch("/:hotelID/hotelOwner/:ownerID", async (req, res) =&gt; {
 router.delete("/:hotelID/services/:serviceID", async (req, res) =&gt; {
   try {
     const hotel = await Hotel.findById(req.params.hotelID);
-    <span class="missing-if-branch" title="if path not taken" >I</span>if (!hotel) {
-<span class="cstat-no" title="statement not covered" >      return res.status(404).send({ "Not found": "Hotel not found..." });</span>
+    if (!hotel) {
+      return res.status(404).send({ "Not found": "Hotel not found..." });
     }
     const ser = hotel.services.id(req.params.serviceID);
-    <span class="missing-if-branch" title="else path not taken" >E</span>if (!ser) {
+    if (!ser) {
       return res.status(400).send({ Error: "File not found" });
     }
-<span class="cstat-no" title="statement not covered" >    await ser.remove();</span>
-<span class="cstat-no" title="statement not covered" >    hotel.save();</span>
-<span class="cstat-no" title="statement not covered" >    res.status(200).send(hotel);</span>
+    await ser.remove();
+    hotel.save();
+    res.status(200).send(hotel);
   } catch (error) {
 <span class="cstat-no" title="statement not covered" >    res.status(400).send({ error: error.message });</span>
   }
@@ -903,8 +903,8 @@ router
   Reservation.findById(req.params.resID)
   .populate('room')
   .populate('customer')
-  .then(<span class="fstat-no" title="function not covered" >(r</span>eservation) =&gt;{
-<span class="cstat-no" title="statement not covered" >res.json(reservation);</span>
+  .then((reservation) =&gt;{
+res.json(reservation);
   }).catch(next);
 })
 &nbsp;
@@ -991,7 +991,7 @@ module.exports = router;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Sat Jan 16 2021 14:59:10 GMT+0545 (Nepal Time)
+                at Sat Jan 16 2021 16:46:32 GMT+0545 (Nepal Time)
             </div>
         </div>
         <script src="../prettify.js"></script>

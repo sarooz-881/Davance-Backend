@@ -5,19 +5,23 @@ const auth = require('../router/Authorization');
 const userRouter = require('../router/userRouter');
 const hotelRouter = require ('../router/hotelRouter');
 const app = express();
-
+const guestRouter = require('../router/guestRouter');
 
 app.use(express.json());
 app.use('/users', userRouter);
 app.use('/hotel', auth.verifyUser, hotelRouter);
+app.use('/ehotel/guest', auth.verifyUser, guestRouter);
 require('./setup');
 
+
 let token;
+let token1;
 let hotelID;
 let roomID;
 let ownerID;
 let resID;
 let serviceID;
+let guestID;
 beforeAll(() => {
     return request(app).post('/users/register')
         .send({
@@ -39,6 +43,43 @@ beforeAll(() => {
     
                     expect(res.statusCode).toBe(200);
                     token = res.body.token;
+
+                    return request(app).post('/users/register')
+                    .send({
+                        username: 'test1345678',
+                        password: 'bikash134',
+                        firstName: 'Dhakal',
+                        lastName: 'Bikash',
+                        email: 'bikash@gmail.com',
+                        role: 'guest'  
+                    })
+                    .then((res) => {
+                        return request(app).post('/users/login')
+                        .send({
+                            username: 'test1345678',
+                            password: 'bikash134'
+                        }).then((res)=> {
+                            expect(res.statusCode).toBe(200);
+                            token1 = res.body.token;
+                    return request(app).post('/ehotel/guest')
+                        .set('authorization', token1)
+                        .send({
+                            address:'',
+                            firstName:'Bikash2',
+                            lastName:'Dhakal',
+                            image:'',
+                            gender:'male',
+                            contact:'9860196032',
+                            email:'dhakalbikash0@gmail.com',
+                            citizen_id:'464777',
+                            balance:'3000'
+                        })
+                        .then((res)=>{
+                            guestID = res.body._id
+                            expect(res.statusCode).toBe(201);
+                        })
+                        })
+                    })
                 })
         })
 })
@@ -137,14 +178,7 @@ beforeAll(() => {
             expect(res.statusCode).toBe(201);
         })
     })
-    test('should be able to get hotel services by id', () => {
-        return request(app).get(`/hotel/${hotelID}/services`)
-        .set('authorization', token)
-        .then((res)=>{
-            
-            expect(res.statusCode).toBe(200);
-        })
-    })
+    
     test('Should be able to post hotel address', () => {
         return request(app).post(`/hotel/${hotelID}/services`)
         .set('authorization', token)
@@ -152,11 +186,19 @@ beforeAll(() => {
            services:''
         })
         .then((res)=> {
-            serviceID = res.body_id
+            
             expect(res.statusCode).toBe(201);
         })
     })
-    
+    test('should be able to get hotel services by id', () => {
+        return request(app).get(`/hotel/${hotelID}/services`)
+        .set('authorization', token)
+        .then((res)=>{
+            console.log(res.body)
+            serviceID = res.body[0]._id
+            expect(res.statusCode).toBe(200);
+        })
+    })
     test('hotel owner Should be able to post hotel', () => {
         return request(app).post(`/hotel/${hotelID}/hotelOwner`)
         .set('authorization', token)
@@ -236,10 +278,31 @@ beforeAll(() => {
             expect(res.statusCode).toBe(200);
         })
     })
+    test('guest should be able to get room detail by id', ()=> {
+        return request (app).get(`/ehotel/guest/${guestID}/hotels/${hotelID}/rooms/${roomID}`)
+        .set('authorization', token)
+        .then((res)=> {
+            expect(res.statusCode).toBe(200);
+        })
+    })
+    test('Guest should be able to book room', ()=> {
+        return request (app).post(`/ehotel/guest/${guestID}/hotels/${hotelID}/rooms/${roomID}/book`)
+        .set('authorization', token)
+        .send({
+            checkIn:'2020/2/3',
+            checkOut:'2020/2/4'
+        })
+        .then((res)=> {
+            resID = res.body._id
+            expect(res.statusCode).toBe(200);
+        })
+    })
+    
     test('should be able to get reservations by id', () => {
         return request(app).get(`/hotel/${hotelID}/reservations/${resID}`)
         .set('authorization', token)
         .then((res)=>{ 
+            console.log(res)
             expect(res.statusCode).toBe(200);
         })
     })
@@ -258,6 +321,15 @@ beforeAll(() => {
             expect(res.statusCode).toBe(200);
         })
     })
+    test(' should able to delete hotel services by id', ()=> {
+        return request(app).delete(`/hotel/${hotelID}/services/${serviceID}`)
+        .set('authorization', token)
+        .then((res) => {
+            expect(res.statusCode).toBe(400);
+        })
+    })
+   
+    test
     test(' should able to delete hotel services by id', ()=> {
         return request(app).delete(`/hotel/${hotelID}/services`)
         .set('authorization', token)
@@ -282,6 +354,30 @@ beforeAll(() => {
             expect(res.statusCode).toBe(200);
         })
     })
+    test(' should able to delete hotel services by id', ()=> {
+        return request(app).delete(`/hotel/${hotelID}/services/${serviceID}`)
+        .set('authorization', token)
+        .then((res) => {
+            expect(res.statusCode).toBe(404);
+        })
+    })
+    test(' should able to delete hotel services by id', ()=> {
+        return request(app).delete(`/hotel/${hotelID}/services/${serviceID}`)
+        .set('authorization', token)
+        .then((res) => {
+            expect(res.statusCode).toBe(404);
+        })
+    })
+    test(' "Not found": "Hotel not found..."  message Should show if there is no hotel ', () => {
+        return request(app).patch(`/hotel/${hotelID}/hotelOwner/${ownerID}`)
+        .set('authorization', token)
+        .send({
+        })
+        .then((res)=> {
+         
+            expect(res.statusCode).toBe(404);
+        })
+    })
     test('should show the "file not found" message if there is no hotel details found', () => {
         return request(app).get(`/hotel/${hotelID}`)
         .set('authorization', token)
@@ -290,7 +386,7 @@ beforeAll(() => {
             expect(res.statusCode).toBe(404);
         })
     })
-    test(' should show the "file not found" message if there is noroom details found', ()=> {
+    test(' should show the "file not found" message if there is no room details found', ()=> {
         return request(app).get(`/hotel/${hotelID}/rooms/${roomID}`)
         .set('authorization', token)
         .then((res) => {

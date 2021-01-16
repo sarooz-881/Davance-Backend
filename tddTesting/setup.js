@@ -7,10 +7,7 @@ beforeAll((done) => {
     }).then((db) => {
         console.log('Connected ...');
         done();
-    }).catch((err) => {
-        console.error(err);
-        process.exit(1);
-    })
+    }).catch
 })
 //Tear down
 afterAll((done) => {
