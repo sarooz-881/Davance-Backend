@@ -201,7 +201,6 @@ test('Guest should be able to book room', ()=> {
         checkOut:'2020/2/4'
     })
     .then((res)=> {
-        resID = res.body._id
         expect(res.statusCode).toBe(200);
     })
 })
@@ -220,6 +219,7 @@ test('guest should be able to get reservation detail by id', ()=> {
     return request (app).get(`/ehotel/guest/${guestID}/reservations`)
     .set('authorization', token)
     .then((res)=> {
+        resID = res.body[0]._id
         expect(res.statusCode).toBe(200);
     })
 })
@@ -231,14 +231,13 @@ test('guest should be able to get reservation detail by id', ()=> {
         expect(res.statusCode).toBe(200);
     })
 })
-// test('guest should be able to cancel booking', ()=> {
-//     return request (app).delete(`/ehotel/guest/${guestID}/reservations/${resID}/cancelBooking`)
-//     .set('authorization', token)
-//     .then((res)=> {
-//         console.log(res)
-//         expect(res.statusCode).toBe(200);
-//     })
-// })
+test('guest should be able to cancel booking', ()=> {
+    return request (app).delete(`/ehotel/guest/${guestID}/reservations/${resID}/cancelBooking`)
+    .set('authorization', token)
+    .then((res)=> {
+        expect(res.statusCode).toBe(200);
+    })
+})
 test('Should not be able to register guest more than once', () => {
     return request(app).post('/ehotel/guest')
     .set('authorization', token)

@@ -153,11 +153,10 @@ beforeAll(() => {
         })
         .then((res)=> {
             serviceID = res.body_id
-            console.log(res.body)
-            
             expect(res.statusCode).toBe(201);
         })
     })
+    
     test('hotel owner Should be able to post hotel', () => {
         return request(app).post(`/hotel/${hotelID}/hotelOwner`)
         .set('authorization', token)
@@ -232,15 +231,15 @@ beforeAll(() => {
         return request(app).get(`/hotel/${hotelID}/reservations`)
         .set('authorization', token)
         .then((res)=>{
-            
+            resID = res.body._id
+            console.log(res.body)
             expect(res.statusCode).toBe(200);
         })
     })
-    test('should be able to get reservations', () => {
+    test('should be able to get reservations by id', () => {
         return request(app).get(`/hotel/${hotelID}/reservations/${resID}`)
         .set('authorization', token)
-        .then((res)=>{
-            
+        .then((res)=>{ 
             expect(res.statusCode).toBe(200);
         })
     })
@@ -256,7 +255,6 @@ beforeAll(() => {
         return request(app).delete(`/hotel/${hotelID}/services/${serviceID}`)
         .set('authorization', token)
         .then((res) => {
-            console.log(res)
             expect(res.statusCode).toBe(200);
         })
     })
