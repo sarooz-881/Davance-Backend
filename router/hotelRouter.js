@@ -22,8 +22,9 @@ router
       .catch(next);
   })
 
-  .post(auth.verifyhotelOwner, (req, res, next) => {
-    let { hotelName, contact, email, description } = req.body;
+  .post(auth.verifyUser, auth.verifyhotelOwner, (req, res, next) => {
+    let { hotelName, contact, email, description, address:country,address:state,address:street, 
+      hotelOwner:ownerName, hotelOwner:ownerEmail, hotelOwner:ownerContact } = req.body;
     Hotel.findOne({ owner: req.user.id })
       .then((hotel) => {
         if (hotel) {
@@ -32,6 +33,8 @@ router
           return next(err);
         }
         Hotel.create({
+          address:country,address:state,address:street,
+          hotelOwner:ownerName, hotelOwner:ownerEmail, hotelOwner:ownerContact,
           hotelName,
           contact,
           email,

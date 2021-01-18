@@ -6,6 +6,7 @@ const validation = require("../validator/validator");
 const Hotel = require("../models/Hotel");
 const Reservation = require('../models/Reservation');
 const Room = require("../models/Room");
+const Feedback = require("../models/Review-Rating");
 const { populate } = require("../models/Hotel");
 
 
@@ -96,7 +97,8 @@ router
       .catch(next);
   })
   
-  router.route("/:guestID/hotels")
+  router
+  .route("/:guestID/hotels")
   .get((req, res, next) => {
   Hotel.find()
   .populate("rooms")
@@ -176,6 +178,52 @@ router
     }).catch(next);
   });
 
+  router
+  .route("/:guestID/hotels/:hotelID/feedback")
+.get((req,res,next) =>{
+  Feedback.find()
+  .then((feedbacks) =>{
+    res.json(feedbacks);
+  }).catch(next);
+})
+
+.post(auth.verifyGuest, (req,res,next) =>{
+let {feedbacks , rating} = req.body;
+  Feedback.create({feedbacks, rating, owner : req.params.guestID} )
+  .then((feedback) =>{
+    res.status(201).json(feedback);
+  }).catch(next);
+})
+
+router
+.route("/:guestID/hotels/:hotelID/feedback/:feedbackID")
+.get((req, res, next) =>{
+  Feedback.findById(req.params.feedbackID)
+  .then((feedback) =>{
+    res.json(feedbacks);
+  }).catch(next);
+})
+
+.put((req,res,next) =>{
+  Feedback.findByIdAndUpdate(
+    {owner:req.params.guestID},
+    { $set: req.body },
+    { new: true }
+  ).then((updatedFeedback) =>{
+    res.json(updatedFeedback);
+  }).catch(next);
+
+})
+
+.delete((req,res,next) =>{
+  Feedback.deleteOne({owner:req.params.guestID})
+  .then(reply =>{
+    res.json(reply);
+  }).catch(next);
+})
+
+router
+.route("/:guestID/")
   router
   .route("/:guestID/reservations")
   .get((req,res,next) => {
