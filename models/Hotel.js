@@ -6,27 +6,25 @@ const hotelSchema = new mongoose.Schema(
       required: true,
     },
 
-    hotelOwner: [
+    hotelOwner: 
       {
         ownerName: {
           type: String,
         },
-        email: {
+        ownerEmail: {
           type: String,
         },
-        contact: {
+        ownerContact: {
           type: String,
         },
       },
-    ],
 
-    address: [
+    address: 
       {
         country: { type: String, required: true },
         state: { type: String, required: true },
         street: { type: String, required: true },
       },
-    ],
 
     description: {
       type: String,
@@ -60,6 +58,10 @@ const hotelSchema = new mongoose.Schema(
         ref: "Room",
       },
     ],
+review_ratings : [{
+type:mongoose.Schema.Types.ObjectId,
+ref:"Review-Rating"
+}],
 
     owner: {
       type: mongoose.Schema.Types.ObjectId,
