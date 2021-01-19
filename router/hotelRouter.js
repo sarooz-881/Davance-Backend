@@ -9,10 +9,24 @@ router
 .route("/hotelList")
 .get((req,res,next)=>{
   Hotel.find()
+  .populate('rooms')
+  .populate('services')
   .then(hotels =>{
     res.json(hotels);
   }).catch(next);
 })
+
+router
+.route("/hotelList/:hotelID")
+.get((req,res,next)=>{
+  Hotel.findById(req.params.hotelID)
+  .populate('rooms')
+  .populate('services')
+  .then((hotel)=>{
+    res.json(hotel);
+  }).catch(next);
+})
+
 
 router
   .route("/")
