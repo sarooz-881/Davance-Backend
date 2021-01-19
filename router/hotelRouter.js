@@ -6,6 +6,15 @@ const Room = require("../models/Room");
 const auth = require("./Authorization");
 
 router
+.route("/hotelList")
+.get((req,res,next)=>{
+  Hotel.find()
+  .then(hotels =>{
+    res.json(hotels);
+  }).catch(next);
+})
+
+router
   .route("/")
   .get(auth.verifyUser,(req, res, next) => {
     if (req.user.role == "hotelOwner") {
