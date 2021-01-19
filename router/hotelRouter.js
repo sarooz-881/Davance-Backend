@@ -7,7 +7,7 @@ const auth = require("./Authorization");
 
 router
   .route("/")
-  .get((req, res, next) => {
+  .get(auth.verifyUser,(req, res, next) => {
     if (req.user.role == "hotelOwner") {
       Hotel.find({ owner: req.user.id })
         .then((hotel) => {
@@ -245,7 +245,7 @@ router
       .catch(next);
   })
 
-  .post(auth.verifyhotelOwner, (req, res, next) => {
+  .post(auth.verifyUser, auth.verifyhotelOwner, (req, res, next) => {
     let { room_no, roomType, image, price, isReserved, hotel } = req.body;
     Room.create({
       room_no,
