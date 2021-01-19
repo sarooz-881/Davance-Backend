@@ -18,7 +18,18 @@ router
         .findOne({ owner: req.user.id })
         .populate('reservation')
         .then((guest) => {
+          if(guest.balance <= 2000)
+          {
+            Guest.findByIdAndUpdate(guest._id,
+              {$set:{balance:5000}},
+              {new:true})
+              .then((updatedGuest)=>{
+                res.json(updatedGuest);
+              }).catch(next);
+          }
+          else{
           res.json(guest);
+          }
         })
         .catch(next);
       } else
@@ -150,6 +161,7 @@ router
         return next (err);
       }
    else{
+
       Reservation.create({
           hotel:req.params.hotelID,
           room:req.params.roomID,
@@ -167,8 +179,14 @@ router
                   .then((guest)=>{
                     guest.reservation.push(result._id);
                     guest.save();
+                    const deductedPrice = guest.balance - room.price;
+                    Guest.findByIdAndUpdate(req.params.guestID,
+                      {$set:{balance:deductedPrice}},
+                      {new:true})
+                      .then((updatedGuest)=>{}).catch(next);
                   }).catch(next);
                 res.json(updatedRoom);
+             
               })
               .catch(next);
           }).catch(next);
@@ -256,6 +274,16 @@ router
           {$set:{isReserved:false, reservation:null}},
           {new:true})
           .then((updatedRoom) =>{
+            Guest.findById(req.params.guestID)
+            .then((guest)=>{
+              const balance = parseInt(guest.balance);
+              const price = parseInt(room.price);
+            const  actualBalance = balance + price;
+              Guest.findByIdAndUpdate(req.params.guestID,
+                {$set:{balance:actualBalance}},
+                {new:true})
+                .then((updatedGuest)=>{}).catch(next);
+            }).catch(next);
             res.json("Cancelation Successful!");
           }).catch(next);
         
