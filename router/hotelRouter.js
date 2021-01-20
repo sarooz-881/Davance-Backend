@@ -11,6 +11,7 @@ router
   Hotel.find()
   .populate('rooms')
   .populate('services')
+  .populate('review_ratings')
   .then(hotels =>{
     res.json(hotels);
   }).catch(next);
@@ -22,6 +23,7 @@ router
   Hotel.findById(req.params.hotelID)
   .populate('rooms')
   .populate('services')
+  .populate('review_ratings')
   .then((hotel)=>{
     res.json(hotel);
   }).catch(next);
@@ -33,12 +35,19 @@ router
   .get(auth.verifyUser,(req, res, next) => {
     if (req.user.role == "hotelOwner") {
       Hotel.find({ owner: req.user.id })
+      .populate('rooms')
+  .populate('services')
+  .populate('review_ratings')
+  .populate('reservations')
         .then((hotel) => {
           res.json(hotel);
         })
         .catch(next);
     }
     Hotel.find({})
+    .populate('rooms')
+  .populate('services')
+  .populate('review_ratings')
       .then((hotels) => {
         res.send(hotels);
       })
@@ -84,6 +93,8 @@ router
   .route("/:hotelID")
   .get((req, res, next) => {
     Hotel.findById(req.params.hotelID)
+  .populate('services')
+  .populate('review_ratings')
       .populate("rooms")
       .then((hotel) => {
         if (hotel !== null) {

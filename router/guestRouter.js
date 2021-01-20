@@ -44,8 +44,6 @@ router
   .post(auth.verifyGuest, (req, res, next) => {
     let { firstName, lastName, citizen_id, image, gender, contact, email, guestImage
          ,balance,address:country,address:state,address:street } = req.body;
-    
-   
     Guest.findOne({ owner: req.user.id })
       .then((guest) => {
         if (guest) {
@@ -89,6 +87,7 @@ router
   .get((req, res, next) => {
     Guest
       .findById(req.params.guestID)
+      .populate('reservation')
       .then((guest) => {
         res.json(guest);
       })
@@ -113,6 +112,8 @@ router
   .get((req, res, next) => {
   Hotel.find()
   .populate("rooms")
+  .populate('services')
+  .populate('review_ratings')
     .then((hotels) => {
       res.json(hotels);
     })
@@ -123,6 +124,8 @@ router.route("/:guestID/hotels/:hotelID")
   .get((req, res, next) => {
   Hotel.findById(req.params.hotelID)
   .populate("rooms")
+  .populate('services')
+  .populate('review_ratings')
     .then((hotel) => {
       res.json(hotel);
     })
@@ -209,6 +212,11 @@ router
 let {feedbacks , rating} = req.body;
   Feedback.create({feedbacks, rating, owner : req.params.guestID} )
   .then((feedback) =>{
+    Hotel.findById(req.params.hotelID)
+    .then((hotel)=>{
+      hotel.review_ratings.push(feedback._id)
+      hotel.save();
+    }).catch(next);
     res.status(201).json(feedback);
   }).catch(next);
 })
@@ -236,17 +244,24 @@ router
 .delete((req,res,next) =>{
   Feedback.deleteOne({owner:req.params.guestID})
   .then(reply =>{
+    Hotel.findById(req.params.hotelID)
+    .then((hotel) =>{
+      hotel.review_ratings = hotel.review_ratings.filter((rr)=>{
+        return rr._id != req.params.feedbackID;
+      });
+      hotel.save();
+    }).catch(next);
     res.json(reply);
   }).catch(next);
 })
 
-router
-.route("/:guestID/")
   router
   .route("/:guestID/reservations")
   .get((req,res,next) => {
   Guest.findById(req.params.guestID)
   .populate("reservation")
+  .populate('hotel')
+  .populate('room')
   .then((guest) => {
     res.json(guest.reservation);
   }).catch(next);
@@ -278,7 +293,7 @@ router
             .then((guest)=>{
               const balance = parseInt(guest.balance);
               const price = parseInt(room.price);
-            const  actualBalance = balance + price;
+              const actualBalance = balance + price;
               Guest.findByIdAndUpdate(req.params.guestID,
                 {$set:{balance:actualBalance}},
                 {new:true})
