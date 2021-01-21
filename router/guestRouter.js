@@ -18,6 +18,7 @@ router
         .findOne({ owner: req.user.id })
         .populate('reservation')
         .then((guest) => {
+          if(guest){
           if(guest.balance <= 2000)
           {
             Guest.findByIdAndUpdate(guest._id,
@@ -29,6 +30,9 @@ router
           }
           else{
           res.json(guest);
+          }}
+          else{
+            res.status(404).json("Oops! You haven't created guest profile");
           }
         })
         .catch(next);
