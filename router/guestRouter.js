@@ -32,7 +32,7 @@ router
           res.json(guest);
           }}
           else{
-            res.status(404).json("Oops! You haven't created guest profile");
+            res.send([]);
           }
         })
         .catch(next);
