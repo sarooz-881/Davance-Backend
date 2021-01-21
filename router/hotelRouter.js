@@ -6,24 +6,57 @@ const Room = require("../models/Room");
 const auth = require("./Authorization");
 
 router
+.route("/hotelList")
+.get((req,res,next)=>{
+  Hotel.find()
+  .populate('rooms')
+  .populate('services')
+  .populate('review_ratings')
+  .then(hotels =>{
+    res.json(hotels);
+  }).catch(next);
+})
+
+router
+.route("/hotelList/:hotelID")
+.get((req,res,next)=>{
+  Hotel.findById(req.params.hotelID)
+  .populate('rooms')
+  .populate('services')
+  .populate('review_ratings')
+  .then((hotel)=>{
+    res.json(hotel);
+  }).catch(next);
+})
+
+
+router
   .route("/")
-  .get((req, res, next) => {
+  .get(auth.verifyUser,(req, res, next) => {
     if (req.user.role == "hotelOwner") {
       Hotel.find({ owner: req.user.id })
+      .populate('rooms')
+  .populate('services')
+  .populate('review_ratings')
+  .populate('reservations')
         .then((hotel) => {
           res.json(hotel);
         })
         .catch(next);
     }
     Hotel.find({})
+    .populate('rooms')
+  .populate('services')
+  .populate('review_ratings')
       .then((hotels) => {
         res.send(hotels);
       })
       .catch(next);
   })
 
-  .post(auth.verifyhotelOwner, (req, res, next) => {
-    let { hotelName, contact, email, description } = req.body;
+  .post(auth.verifyUser, auth.verifyhotelOwner, (req, res, next) => {
+    let { hotelName, contact, email, description, address:country,address:state,address:street, 
+      hotelOwner:ownerName, hotelOwner:ownerEmail, hotelOwner:ownerContact } = req.body;
     Hotel.findOne({ owner: req.user.id })
       .then((hotel) => {
         if (hotel) {
@@ -32,6 +65,8 @@ router
           return next(err);
         }
         Hotel.create({
+          address:country,address:state,address:street,
+          hotelOwner:ownerName, hotelOwner:ownerEmail, hotelOwner:ownerContact,
           hotelName,
           contact,
           email,
@@ -58,6 +93,8 @@ router
   .route("/:hotelID")
   .get((req, res, next) => {
     Hotel.findById(req.params.hotelID)
+  .populate('services')
+  .populate('review_ratings')
       .populate("rooms")
       .then((hotel) => {
         if (hotel !== null) {
@@ -242,7 +279,7 @@ router
       .catch(next);
   })
 
-  .post(auth.verifyhotelOwner, (req, res, next) => {
+  .post(auth.verifyUser, auth.verifyhotelOwner, (req, res, next) => {
     let { room_no, roomType, image, price, isReserved, hotel } = req.body;
     Room.create({
       room_no,

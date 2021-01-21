@@ -15,7 +15,7 @@ app.use(cors('*'));
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use('/ehotel/user',  userRouter);
-app.use('/ehotel/hotel',auth.verifyUser, hotelRouter);
+app.use('/ehotel/hotel', hotelRouter);
 app.use('/ehotel/guest', auth.verifyUser, guestRouter);
 app.use('/ehotel/hotel/upload/image',uploadImage);
 app.use(express.static(path.join(__dirname,'gallery')));

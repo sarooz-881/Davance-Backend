@@ -6,6 +6,7 @@ const validation = require("../validator/validator");
 const Hotel = require("../models/Hotel");
 const Reservation = require('../models/Reservation');
 const Room = require("../models/Room");
+const Feedback = require("../models/Review-Rating");
 const { populate } = require("../models/Hotel");
 
 
@@ -18,7 +19,18 @@ router
         .findOne({ owner: req.user.id })
         .populate('reservation')
         .then((guest) => {
+          if(guest.balance <= 2000)
+          {
+            Guest.findByIdAndUpdate(guest._id,
+              {$set:{balance:5000}},
+              {new:true})
+              .then((updatedGuest)=>{
+                res.json(updatedGuest);
+              }).catch(next);
+          }
+          else{
           res.json(guest);
+          }
         })
         .catch(next);
       } else
@@ -33,8 +45,6 @@ router
   .post(auth.verifyGuest, (req, res, next) => {
     let { firstName, lastName, citizen_id, image, gender, contact, email, guestImage
          ,balance,address:country,address:state,address:street } = req.body;
-    
-   
     Guest.findOne({ owner: req.user.id })
       .then((guest) => {
         if (guest) {
@@ -78,6 +88,7 @@ router
   .get((req, res, next) => {
     Guest
       .findById(req.params.guestID)
+      .populate('reservation')
       .then((guest) => {
         res.json(guest);
       })
@@ -97,10 +108,13 @@ router
       .catch(next);
   })
   
-  router.route("/:guestID/hotels")
+  router
+  .route("/:guestID/hotels")
   .get((req, res, next) => {
   Hotel.find()
   .populate("rooms")
+  .populate('services')
+  .populate('review_ratings')
     .then((hotels) => {
       res.json(hotels);
     })
@@ -111,6 +125,8 @@ router.route("/:guestID/hotels/:hotelID")
   .get((req, res, next) => {
   Hotel.findById(req.params.hotelID)
   .populate("rooms")
+  .populate('services')
+  .populate('review_ratings')
     .then((hotel) => {
       res.json(hotel);
     })
@@ -149,6 +165,7 @@ router
         return next (err);
       }
    else{
+
       Reservation.create({
           hotel:req.params.hotelID,
           room:req.params.roomID,
@@ -166,8 +183,14 @@ router
                   .then((guest)=>{
                     guest.reservation.push(result._id);
                     guest.save();
+                    const deductedPrice = guest.balance - room.price;
+                    Guest.findByIdAndUpdate(req.params.guestID,
+                      {$set:{balance:deductedPrice}},
+                      {new:true})
+                      .then((updatedGuest)=>{}).catch(next);
                   }).catch(next);
                 res.json(updatedRoom);
+             
               })
               .catch(next);
           }).catch(next);
@@ -178,10 +201,68 @@ router
   });
 
   router
+  .route("/:guestID/hotels/:hotelID/feedback")
+.get((req,res,next) =>{
+  Feedback.find()
+  .then((feedbacks) =>{
+    res.json(feedbacks);
+  }).catch(next);
+})
+
+.post(auth.verifyGuest, (req,res,next) =>{
+let {feedbacks , rating} = req.body;
+  Feedback.create({feedbacks, rating, owner : req.params.guestID} )
+  .then((feedback) =>{
+    Hotel.findById(req.params.hotelID)
+    .then((hotel)=>{
+      hotel.review_ratings.push(feedback._id)
+      hotel.save();
+    }).catch(next);
+    res.status(201).json(feedback);
+  }).catch(next);
+})
+
+router
+.route("/:guestID/hotels/:hotelID/feedback/:feedbackID")
+.get((req, res, next) =>{
+  Feedback.findById(req.params.feedbackID)
+  .then((feedback) =>{
+    res.json(feedbacks);
+  }).catch(next);
+})
+
+.put((req,res,next) =>{
+  Feedback.findByIdAndUpdate(
+    {owner:req.params.guestID},
+    { $set: req.body },
+    { new: true }
+  ).then((updatedFeedback) =>{
+    res.json(updatedFeedback);
+  }).catch(next);
+
+})
+
+.delete((req,res,next) =>{
+  Feedback.deleteOne({owner:req.params.guestID})
+  .then(reply =>{
+    Hotel.findById(req.params.hotelID)
+    .then((hotel) =>{
+      hotel.review_ratings = hotel.review_ratings.filter((rr)=>{
+        return rr._id != req.params.feedbackID;
+      });
+      hotel.save();
+    }).catch(next);
+    res.json(reply);
+  }).catch(next);
+})
+
+  router
   .route("/:guestID/reservations")
   .get((req,res,next) => {
   Guest.findById(req.params.guestID)
   .populate("reservation")
+  .populate('hotel')
+  .populate('room')
   .then((guest) => {
     res.json(guest.reservation);
   }).catch(next);
@@ -209,6 +290,16 @@ router
           {$set:{isReserved:false, reservation:null}},
           {new:true})
           .then((updatedRoom) =>{
+            Guest.findById(req.params.guestID)
+            .then((guest)=>{
+              const balance = parseInt(guest.balance);
+              const price = parseInt(room.price);
+              const actualBalance = balance + price;
+              Guest.findByIdAndUpdate(req.params.guestID,
+                {$set:{balance:actualBalance}},
+                {new:true})
+                .then((updatedGuest)=>{}).catch(next);
+            }).catch(next);
             res.json("Cancelation Successful!");
           }).catch(next);
         
