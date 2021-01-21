@@ -75,6 +75,7 @@ beforeAll(() => {
                             balance:'3000'
                         })
                         .then((res)=>{
+                            
                             guestID = res.body._id
                             expect(res.statusCode).toBe(201);
                         })
@@ -95,10 +96,15 @@ beforeAll(() => {
             contact: "1234567",
             email: "dhakalbikash0@gmail.com",
             description: "my hotel",
-            address: [],
+            address: {
+                street: "4200",
+                state:"3",
+                country:"nepal"
+            },
             services: [],
          })
          .then((res)=> {
+        
              hotelID = res.body._id
              expect(res.statusCode).toBe(201);
          })
@@ -122,7 +128,11 @@ beforeAll(() => {
             contact: "1234567",
             email: "dhakalbikash0@gmail.com",
             description: "my hotel",
-            address: [],
+            address: {
+                street: "4200",
+                state:"3",
+                country:"nepal"
+            },
             services: [],
          })
          .then((res)=> {
@@ -149,7 +159,11 @@ beforeAll(() => {
             contact: "1234567",
             email: "dhakalbikash0@gmail.com",
             description: "my hotel",
-            address: [],
+            address: {
+                street: "4200",
+                state:"3",
+                country:"nepal"
+            },
             services: [],
         })
 
@@ -170,16 +184,18 @@ beforeAll(() => {
         return request(app).post(`/hotel/${hotelID}/address`)
         .set('authorization', token)
         .send({
-           street: 'ddd',
-           country: 'kk',
-           state:'ee'
+            address: {
+                street: "4200",
+                state:"3",
+                country:"nepal"
+            },
         })
         .then((res)=> {
             expect(res.statusCode).toBe(201);
         })
     })
     
-    test('Should be able to post hotel address', () => {
+    test('Should be able to post hotel services', () => {
         return request(app).post(`/hotel/${hotelID}/services`)
         .set('authorization', token)
         .send({
@@ -329,7 +345,7 @@ beforeAll(() => {
         })
     })
    
-    test
+
     test(' should able to delete hotel services by id', ()=> {
         return request(app).delete(`/hotel/${hotelID}/services`)
         .set('authorization', token)
@@ -338,14 +354,14 @@ beforeAll(() => {
             expect(res.statusCode).toBe(200);
         })
     })
-    test(' should able to delete hotel address by id', ()=> {
-        return request(app).delete(`/hotel/${hotelID}/address`)
-        .set('authorization', token)
-        .then((res) => {
+    // test(' should able to delete hotel address by id', ()=> {
+    //     return request(app).delete(`/hotel/${hotelID}/address`)
+    //     .set('authorization', token)
+    //     .then((res) => {
             
-            expect(res.statusCode).toBe(200);
-        })
-    })
+    //         expect(res.statusCode).toBe(200);
+    //     })
+    // })
     test('should be able to delete hotel', ()=> {
         return request (app).delete('/Hotel')
         .set('authorization', token)
@@ -394,4 +410,4 @@ beforeAll(() => {
             expect(res.statusCode).toBe(404);
         })
     })
- })
+  })

@@ -68,7 +68,11 @@ beforeAll(() => {
                            contact: "1234567",
                            email: "dhakalbikash0@gmail.com",
                            description: "my hotel",
-                           address: [],
+                           address: {
+                            street: "4200",
+                            state:"3",
+                            country:"nepal"
+                        },
                            services: [],
                         })
                         .then((res)=> {
