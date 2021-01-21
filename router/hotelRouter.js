@@ -120,42 +120,6 @@ router
       .catch(next);
   });
 
-router
-  .route("/:hotelID/address")
-  .get((req, res, next) => {
-    Hotel.findById(req.params.hotelID)
-      .then((hotel) => {
-        res.json(hotel.address);
-      })
-      .catch(next);
-  })
-
-  .post((req, res, next) => {
-    let { country, state, street } = req.body;
-    Hotel.findById(req.params.hotelID).then((hotel) => {
-      hotel.address.push({ country, state, street });
-      hotel
-        .save()
-        .then((updatedHotel) => {
-          res.status(201).json(updatedHotel);
-        })
-        .catch(next);
-    });
-  })
-
-  .delete((req, res, next) => {
-    Hotel.findById(req.params.hotelID)
-      .then((hotel) => {
-        hotel.address = [];
-        hotel
-          .save()
-          .then((updatedHotel) => {
-            res.json(updatedHotel.address);
-          })
-          .catch(next);
-      })
-      .catch(next);
-  });
 
 router
   .route("/:hotelID/services")
@@ -192,42 +156,8 @@ router
       })
       .catch(next);
   });
-  router
-  .route("/:hotelID/hotelOwner")
-  .get((req, res, next) => {
-    Hotel.findById(req.params.hotelID)
-      .then((hotel) => {
-        res.json(hotel.hotelOwner);
-      })
-      .catch(next);
-  })
 
-  .post((req, res, next) => {
-    Hotel.findById(req.params.hotelID).then((hotel) => {
-      hotel.hotelOwner.push(req.body);
-      hotel
-        .save()
-        .then((updatedHotel) => {
-          res.status(201).json(updatedHotel);
-        })
-        .catch(next);
-    });
-  });
-
-router.patch("/:hotelID/hotelOwner/:ownerID", async (req, res) => {
-  try {
-    const hotel = await Hotel.findById(req.params.hotelID);
-    if (!hotel) {
-      return res.status(404).send({ "Not found": "Hotel not found..." });
-    }
-    hotel.hotelOwner = req.body;
-    await package.save();
-    res.status(201).send(hotel);
-  } catch (error) {
-    res.status(400).send({ error: error.message });
-  }
-});
-
+  
 router.delete("/:hotelID/services/:serviceID", async (req, res) => {
   try {
     const hotel = await Hotel.findById(req.params.hotelID);
