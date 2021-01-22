@@ -120,42 +120,6 @@ router
       .catch(next);
   });
 
-router
-  .route("/:hotelID/address")
-  .get((req, res, next) => {
-    Hotel.findById(req.params.hotelID)
-      .then((hotel) => {
-        res.json(hotel.address);
-      })
-      .catch(next);
-  })
-
-  .post((req, res, next) => {
-    let { country, state, street } = req.body;
-    Hotel.findById(req.params.hotelID).then((hotel) => {
-      hotel.address.push({ country, state, street });
-      hotel
-        .save()
-        .then((updatedHotel) => {
-          res.status(201).json(updatedHotel);
-        })
-        .catch(next);
-    });
-  })
-
-  .delete((req, res, next) => {
-    Hotel.findById(req.params.hotelID)
-      .then((hotel) => {
-        hotel.address = [];
-        hotel
-          .save()
-          .then((updatedHotel) => {
-            res.json(updatedHotel.address);
-          })
-          .catch(next);
-      })
-      .catch(next);
-  });
 
 router
   .route("/:hotelID/services")
@@ -228,6 +192,7 @@ router.patch("/:hotelID/hotelOwner/:ownerID", async (req, res) => {
   }
 });
 
+  
 router.delete("/:hotelID/services/:serviceID", async (req, res) => {
   try {
     const hotel = await Hotel.findById(req.params.hotelID);
