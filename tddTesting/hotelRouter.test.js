@@ -9,7 +9,7 @@ const guestRouter = require('../router/guestRouter');
 
 app.use(express.json());
 app.use('/users', userRouter);
-app.use('/hotel', auth.verifyUser, hotelRouter);
+app.use('/hotel',  hotelRouter);
 app.use('/ehotel/guest', auth.verifyUser, guestRouter);
 require('./setup');
 
@@ -109,11 +109,26 @@ beforeAll(() => {
              expect(res.statusCode).toBe(201);
          })
      })
-     test('should be able to get hotel', ()=> {
+     
+    //  test('should be able to get hotel', ()=> {
+    //     return request (app).get('/Hotel')
+    //     .then((res)=> {
+            
+    //         expect(res.statusCode).toBe(200);
+    //     })
+    // })
+    test('should be able to get hotel', ()=> {
         return request (app).get('/Hotel')
         .set('authorization', token)
         .then((res)=> {
-            
+            console.log(res.body)
+            expect(res.statusCode).toBe(200);
+        })
+    })
+    test('should be able to get hotel list ', ()=> {
+        return request (app).get('/hotel/hotelList')
+        .then((res)=> {
+            console.log(res.body)
             expect(res.statusCode).toBe(200);
         })
     })
@@ -172,28 +187,6 @@ beforeAll(() => {
             expect(res.statusCode).toBe(200);
         })
     })
-    test('should be able to get hotel address by id', () => {
-        return request(app).get(`/hotel/${hotelID}/address`)
-        .set('authorization', token)
-        .then((res)=>{
-            
-            expect(res.statusCode).toBe(200);
-        })
-    })
-    test('Should be able to post hotel address', () => {
-        return request(app).post(`/hotel/${hotelID}/address`)
-        .set('authorization', token)
-        .send({
-            address: {
-                street: "4200",
-                state:"3",
-                country:"nepal"
-            },
-        })
-        .then((res)=> {
-            expect(res.statusCode).toBe(201);
-        })
-    })
     
     test('Should be able to post hotel services', () => {
         return request(app).post(`/hotel/${hotelID}/services`)
@@ -213,34 +206,6 @@ beforeAll(() => {
             console.log(res.body)
             serviceID = res.body[0]._id
             expect(res.statusCode).toBe(200);
-        })
-    })
-    test('hotel owner Should be able to post hotel', () => {
-        return request(app).post(`/hotel/${hotelID}/hotelOwner`)
-        .set('authorization', token)
-        .send({
-        })
-        .then((res)=> {
-            ownerID = res.body._id
-            expect(res.statusCode).toBe(201);
-        })
-    })
-    test('hotel owner should be able to get hotel ', () => {
-        return request(app).get(`/hotel/${hotelID}/hotelOwner`)
-        .set('authorization', token)
-        .then((res)=>{
-            
-            expect(res.statusCode).toBe(200);
-        })
-    })
-    test('hotel owner Should be able to post hotel', () => {
-        return request(app).patch(`/hotel/${hotelID}/hotelOwner/${ownerID}`)
-        .set('authorization', token)
-        .send({
-        })
-        .then((res)=> {
-         
-            expect(res.statusCode).toBe(201);
         })
     })
     test('should be able to get hotel roomss by id', () => {
@@ -318,7 +283,6 @@ beforeAll(() => {
         return request(app).get(`/hotel/${hotelID}/reservations/${resID}`)
         .set('authorization', token)
         .then((res)=>{ 
-            console.log(res)
             expect(res.statusCode).toBe(200);
         })
     })
@@ -354,14 +318,6 @@ beforeAll(() => {
             expect(res.statusCode).toBe(200);
         })
     })
-    // test(' should able to delete hotel address by id', ()=> {
-    //     return request(app).delete(`/hotel/${hotelID}/address`)
-    //     .set('authorization', token)
-    //     .then((res) => {
-            
-    //         expect(res.statusCode).toBe(200);
-    //     })
-    // })
     test('should be able to delete hotel', ()=> {
         return request (app).delete('/Hotel')
         .set('authorization', token)

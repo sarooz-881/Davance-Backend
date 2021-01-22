@@ -156,42 +156,7 @@ router
       })
       .catch(next);
   });
-  router
-  .route("/:hotelID/hotelOwner")
-  .get((req, res, next) => {
-    Hotel.findById(req.params.hotelID)
-      .then((hotel) => {
-        res.json(hotel.hotelOwner);
-      })
-      .catch(next);
-  })
-
-  .post((req, res, next) => {
-    Hotel.findById(req.params.hotelID).then((hotel) => {
-      hotel.hotelOwner.push(req.body);
-      hotel
-        .save()
-        .then((updatedHotel) => {
-          res.status(201).json(updatedHotel);
-        })
-        .catch(next);
-    });
-  });
-
-router.patch("/:hotelID/hotelOwner/:ownerID", async (req, res) => {
-  try {
-    const hotel = await Hotel.findById(req.params.hotelID);
-    if (!hotel) {
-      return res.status(404).send({ "Not found": "Hotel not found..." });
-    }
-    hotel.hotelOwner = req.body;
-    await hotel.save();
-    res.status(201).send(hotel);
-  } catch (error) {
-    res.status(400).send({ error: error.message });
-  }
-});
-
+  
   
 router.delete("/:hotelID/services/:serviceID", async (req, res) => {
   try {
