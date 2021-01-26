@@ -230,14 +230,14 @@ router
 .route("/:guestID/hotels/:hotelID/feedback/:feedbackID")
 .get((req, res, next) =>{
   Feedback.findById(req.params.feedbackID)
-  .then((feedback) =>{
+  .then((feedbacks) =>{
     res.json(feedbacks);
   }).catch(next);
 })
 
 .put((req,res,next) =>{
   Feedback.findByIdAndUpdate(
-    {owner:req.params.guestID},
+   {owner:req.params.guestID},
     { $set: req.body },
     { new: true }
   ).then((updatedFeedback) =>{

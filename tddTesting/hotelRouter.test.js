@@ -9,7 +9,7 @@ const guestRouter = require('../router/guestRouter');
 
 app.use(express.json());
 app.use('/users', userRouter);
-app.use('/hotel',  hotelRouter);
+app.use('/hotel', auth.verifyUser, hotelRouter);
 app.use('/ehotel/guest', auth.verifyUser, guestRouter);
 require('./setup');
 
@@ -110,23 +110,9 @@ beforeAll(() => {
          })
      })
      
-    //  test('should be able to get hotel', ()=> {
-    //     return request (app).get('/Hotel')
-    //     .then((res)=> {
-            
-    //         expect(res.statusCode).toBe(200);
-    //     })
-    // })
     test('should be able to get hotel', ()=> {
         return request (app).get('/Hotel')
         .set('authorization', token)
-        .then((res)=> {
-            console.log(res.body)
-            expect(res.statusCode).toBe(200);
-        })
-    })
-    test('should be able to get hotel list ', ()=> {
-        return request (app).get('/hotel/hotelList')
         .then((res)=> {
             console.log(res.body)
             expect(res.statusCode).toBe(200);

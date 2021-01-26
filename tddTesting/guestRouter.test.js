@@ -21,6 +21,7 @@ let hotelID1
 let roomID;
 let guestID;
 let resID;
+let feedbackID;
 beforeAll(() => {
     return request(app).post('/users/register')
     .send({
@@ -123,6 +124,20 @@ describe('Guest router test', ()=> {
             expect(res.statusCode).toBe(201);
         })
     })
+    test('should be required to get guest', ()=> {
+        return request (app).get('/ehotel/guest')
+        .then((res)=> {
+            
+            expect(res.statusCode).toBe(401);
+        })
+    })
+    test('should be required to get guest', ()=> {
+        return request (app).get('/ehotel/guest')
+        .then((res)=> {
+            
+            expect(res.statusCode).toBe(401);
+        })
+    })
     test('should be able to get guest', ()=> {
        return request (app).get('/ehotel/guest')
        .set('authorization', token)
@@ -159,14 +174,21 @@ test('should be able to update guest detail by id', ()=> {
         contact:'9860196032',
         email:'dhakalbikash0@gmail.com',
         citizen_id:'464777',
-        balance:'3000'
+        balance:'1500'
     })
     .then((res)=> {
         
         expect(res.statusCode).toBe(200);
     })
 })
-
+test('should be able to get guest detail by id', ()=> {
+    return request (app).get('/ehotel/guest')
+    .set('authorization', token)
+    .then((res)=> {
+        
+        expect(res.statusCode).toBe(200);
+    })
+})
 test('should be able to get hotels ', ()=> {
     return request (app).get(`/ehotel/guest/${guestID}/hotels`)
     .set('authorization', token)
@@ -235,6 +257,51 @@ test('guest should be able to get reservation detail by id', ()=> {
         expect(res.statusCode).toBe(200);
     })
 })
+test('Guest should be able to post feedback', ()=> {
+    return request (app).post(`/ehotel/guest/${guestID}/hotels/${hotelID}/feedback`)
+    .set('authorization', token)
+    .send({
+        feedback:'good hospitality',
+        rating:'4'
+    })
+    .then((res)=> {
+        feedbackID = res.body._id
+        expect(res.statusCode).toBe(201);
+    })
+})
+test('guest should be able to get feedback', ()=> {
+    return request (app).get(`/ehotel/guest/${guestID}/hotels/${hotelID}/feedback`)
+    .set('authorization', token)
+    .then((res)=> {
+        expect(res.statusCode).toBe(200);
+    })
+})
+test('guest should be able to get feedback by id', ()=> {
+    return request (app).get(`/ehotel/guest/${guestID}/hotels/${hotelID}/feedback/${feedbackID}`)
+    .set('authorization', token)
+    .then((res)=> {
+        expect(res.statusCode).toBe(200);
+    })
+})
+test('guest should be able to update feedback by id', ()=> {
+    return request (app).put(`/ehotel/guest/${guestID}/hotels/${hotelID}/feedback/${feedbackID}`)
+    .set('authorization', token)
+    .send({
+        feedback:'good hospitality',
+        rating:'3'
+    })
+    .then((res)=> {
+        expect(res.statusCode).toBe(200);
+    })
+})
+test('guest should be able to delete feedback by id', ()=> {
+    return request (app).delete(`/ehotel/guest/${guestID}/hotels/${hotelID}/feedback/${feedbackID}`)
+    .set('authorization', token)
+    
+    .then((res)=> {
+        expect(res.statusCode).toBe(200);
+    })
+})
 test('guest should be able to cancel booking', ()=> {
     return request (app).delete(`/ehotel/guest/${guestID}/reservations/${resID}/cancelBooking`)
     .set('authorization', token)
@@ -242,6 +309,7 @@ test('guest should be able to cancel booking', ()=> {
         expect(res.statusCode).toBe(200);
     })
 })
+
 test('Should not be able to register guest more than once', () => {
     return request(app).post('/ehotel/guest')
     .set('authorization', token)
