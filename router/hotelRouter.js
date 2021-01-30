@@ -5,49 +5,52 @@ const Reservation = require("../models/Reservation");
 const Room = require("../models/Room");
 const auth = require("./Authorization");
 
-router
-.route("/hotelList")
-.get((req,res,next)=>{
+router.route("/hotelList").get((req, res, next) => {
   Hotel.find()
-  .populate('rooms')
-  .populate('services')
-  .populate('review_ratings')
-  .then(hotels =>{
-    res.json(hotels);
-  }).catch(next);
-})
+    .populate("rooms")
+    .populate("services")
+    .populate("review_ratings")
+    .then((hotels) => {
+      res.json(hotels);
+    })
+    .catch(next);
+});
 
-router
-.route("/hotelList/:hotelID")
-.get((req,res,next)=>{
+router.route("/hotelList/:hotelID").get((req, res, next) => {
   Hotel.findById(req.params.hotelID)
-  .populate('rooms')
-  .populate('services')
-  .populate('review_ratings')
-  .then((hotel)=>{
-    res.json(hotel);
-  }).catch(next);
-})
+    .populate("rooms")
+    .populate("services")
+    .populate({
+      path: "review_ratings",
+      populate: {
+        path: "owner",
+      },
+    })
 
+    .then((hotel) => {
+      res.json(hotel);
+    })
+    .catch(next);
+});
 
 router
   .route("/")
-  .get(auth.verifyUser,(req, res, next) => {
+  .get(auth.verifyUser, (req, res, next) => {
     if (req.user.role == "hotelOwner") {
       Hotel.find({ owner: req.user.id })
-      .populate('rooms')
-  .populate('services')
-  .populate('review_ratings')
-  .populate('reservations')
+        .populate("rooms")
+        .populate("services")
+        .populate("review_ratings")
+        .populate("reservations")
         .then((hotel) => {
           res.json(hotel);
         })
         .catch(next);
     }
     Hotel.find({})
-    .populate('rooms')
-  .populate('services')
-  .populate('review_ratings')
+      .populate("rooms")
+      .populate("services")
+      .populate("review_ratings")
       .then((hotels) => {
         res.send(hotels);
       })
@@ -55,8 +58,18 @@ router
   })
 
   .post(auth.verifyUser, auth.verifyhotelOwner, (req, res, next) => {
-    let { hotelName, contact, email, description, address:country,address:state,address:street, 
-      hotelOwner:ownerName, hotelOwner:ownerEmail, hotelOwner:ownerContact } = req.body;
+    let {
+      hotelName,
+      contact,
+      email,
+      description,
+      address: country,
+      address: state,
+      address: street,
+      hotelOwner: ownerName,
+      hotelOwner: ownerEmail,
+      hotelOwner: ownerContact,
+    } = req.body;
     Hotel.findOne({ owner: req.user.id })
       .then((hotel) => {
         if (hotel) {
@@ -65,8 +78,12 @@ router
           return next(err);
         }
         Hotel.create({
-          address:country,address:state,address:street,
-          hotelOwner:ownerName, hotelOwner:ownerEmail, hotelOwner:ownerContact,
+          address: country,
+          address: state,
+          address: street,
+          hotelOwner: ownerName,
+          hotelOwner: ownerEmail,
+          hotelOwner: ownerContact,
           hotelName,
           contact,
           email,
@@ -93,8 +110,8 @@ router
   .route("/:hotelID")
   .get((req, res, next) => {
     Hotel.findById(req.params.hotelID)
-  .populate('services')
-  .populate('review_ratings')
+      .populate("services")
+      .populate("review_ratings")
       .populate("rooms")
       .then((hotel) => {
         if (hotel !== null) {
@@ -119,7 +136,6 @@ router
       })
       .catch(next);
   });
-
 
 router
   .route("/:hotelID/services")
@@ -157,7 +173,6 @@ router
       .catch(next);
   });
 
-  
 router.delete("/:hotelID/services/:serviceID", async (req, res) => {
   try {
     const hotel = await Hotel.findById(req.params.hotelID);
@@ -176,27 +191,25 @@ router.delete("/:hotelID/services/:serviceID", async (req, res) => {
   }
 });
 
-router
-.route('/:hotelID/reservations')
-.get((req,res,next) =>{
-  Reservation.find({hotel:req.params.hotelID})
-  .populate('room')
-  .populate('customer')
-  .then((reservations) =>{
-    res.json(reservations);
-  }).catch(next);
-})
+router.route("/:hotelID/reservations").get((req, res, next) => {
+  Reservation.find({ hotel: req.params.hotelID })
+    .populate("room")
+    .populate("customer")
+    .then((reservations) => {
+      res.json(reservations);
+    })
+    .catch(next);
+});
 
-router
-.route('/:hotelID/reservations/:resID')
-.get((req,res,next) =>{
+router.route("/:hotelID/reservations/:resID").get((req, res, next) => {
   Reservation.findById(req.params.resID)
-  .populate('room')
-  .populate('customer')
-  .then((reservation) =>{
-res.json(reservation);
-  }).catch(next);
-})
+    .populate("room")
+    .populate("customer")
+    .then((reservation) => {
+      res.json(reservation);
+    })
+    .catch(next);
+});
 
 router
   .route("/:hotelID/rooms")
