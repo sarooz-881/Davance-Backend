@@ -16,6 +16,27 @@ router.route("/hotelList").get((req, res, next) => {
     .catch(next);
 });
 
+router.patch("/geoLocation/:hotelID", async (req, res) => {
+  const updates = Object.keys(req.body);
+  const allowedUpdates = ["latitude", "longitude"];
+  const isValid = updates.every((update) => allowedUpdates.includes(update));
+
+  if (!isValid) {
+    return res.status(404).send();
+  }
+  try {
+    const hotel = await Hotel.findById(req.params.hotelID);
+    if (!hotel) {
+      return res.status(404).send();
+    }
+    updates.forEach((update) => (hotel[update] = req.body[update]));
+    await hotel.save();
+    res.send(hotel);
+  } catch (error) {
+    res.status(400).send(error);
+  }
+});
+
 router.route("/hotelList/:hotelID").get((req, res, next) => {
   Hotel.findById(req.params.hotelID)
     .populate("rooms")
