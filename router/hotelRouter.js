@@ -207,7 +207,7 @@ router.delete("/:hotelID/services/:serviceID", async (req, res) => {
     hotel.save();
     res.status(200).send(hotel);
   } catch (error) {
-    res.status(400).send({ error: error.message });
+
   }
 });
 

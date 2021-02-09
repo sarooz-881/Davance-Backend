@@ -90,7 +90,7 @@ beforeAll(() => {
          .then((res)=> {
         
              hotelID = res.body._id
-             console.log(res.body)
+             
              expect(res.statusCode).toBe(201);
          })
      })
@@ -99,7 +99,6 @@ beforeAll(() => {
     test('should be able to get hotel list ', ()=> {
         return request (app).get('/Hotel/hotelList')
         .then((res)=> {
-            console.log(res.body)
             expect(res.statusCode).toBe(200);
         })
     })
@@ -108,6 +107,25 @@ beforeAll(() => {
         .then((res)=>{
             
             expect(res.statusCode).toBe(200);
+        })
+    })
+    test('should be able to get hotel loation in map details by id', () => {
+        return request(app).patch(`/Hotel/geoLocation/${hotelID}`)
+        .then((res)=>{
+            
+            expect(res.statusCode).toBe(200);
+        })
+    })
+    test('should be able to get hotel details by id', () => {
+        return request(app).patch(`/Hotel/geoLocation/${hotelID}`)
+        .send({
+            latitude: [],
+            longitude: [],
+
+         })
+        .then((res)=>{
+            
+            expect(res.statusCode).toBe(400);
         })
     })
    
