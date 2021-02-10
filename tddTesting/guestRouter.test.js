@@ -131,13 +131,6 @@ describe('Guest router test', ()=> {
             expect(res.statusCode).toBe(401);
         })
     })
-    test('should be required to get guest', ()=> {
-        return request (app).get('/ehotel/guest')
-        .then((res)=> {
-            
-            expect(res.statusCode).toBe(401);
-        })
-    })
     test('should be able to get guest', ()=> {
        return request (app).get('/ehotel/guest')
        .set('authorization', token)
@@ -181,7 +174,7 @@ test('should be able to update guest detail by id', ()=> {
         expect(res.statusCode).toBe(200);
     })
 })
-test('should be able to get guest detail by id', ()=> {
+test('should be able to get guest', ()=> {
     return request (app).get('/ehotel/guest')
     .set('authorization', token)
     .then((res)=> {
@@ -189,6 +182,7 @@ test('should be able to get guest detail by id', ()=> {
         expect(res.statusCode).toBe(200);
     })
 })
+
 test('should be able to get hotels ', ()=> {
     return request (app).get(`/ehotel/guest/${guestID}/hotels`)
     .set('authorization', token)
@@ -265,7 +259,6 @@ test('Guest should be able to post feedback', ()=> {
         rating:'4'
     })
     .then((res)=> {
-        //feedbackID = res.body._id
         expect(res.statusCode).toBe(201);
     })
 })
@@ -330,6 +323,50 @@ test('Should not be able to register guest more than once', () => {
         
         guestID = res.body._id
         expect(res.statusCode).toBe(401);
+    })
+})
+test('Guest should not be able to register hotel details', () => {
+    return request(app).post('/Hotel')
+    .set('authorization', token)
+    .send({
+       gallery: [],
+       room: [],
+       
+       hotelName: "bikash53",
+       contact: "1234567",
+       email: "dhakalbikash0@gmail.com",
+       description: "my hotel",
+       address: {
+           street: "4200",
+           state:"3",
+           country:"nepal"
+       },
+       services: [],
+    })
+    .then((res)=> {
+   
+        hotelID = res.body._id
+        expect(res.statusCode).toBe(403);
+    })
+})
+test('Should not be able to register guest more than once', () => {
+    return request(app).post('/ehotel/guest')
+    .set('authorization', token1)
+    .send({
+        address:'',
+        firstName:'Bikash',
+        lastName:'Dhakal',
+        image:'',
+        gender:'male',
+        contact:'9860196032',
+        email:'dhakalbikash0@gmail.com',
+        citizen_id:'464777',
+        balance:'3000'
+    })
+    .then((res)=> {
+        
+        guestID = res.body._id
+        expect(res.statusCode).toBe(403);
     })
 })
 test('should be able to delete guest', ()=> {

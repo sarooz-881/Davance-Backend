@@ -94,8 +94,7 @@ beforeAll(() => {
              expect(res.statusCode).toBe(201);
          })
      })
-     
-    
+
     test('should be able to get hotel list ', ()=> {
         return request (app).get('/Hotel/hotelList')
         .then((res)=> {

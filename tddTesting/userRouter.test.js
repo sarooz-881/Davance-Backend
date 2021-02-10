@@ -1,13 +1,15 @@
 const request = require('supertest');
 const express = require('express');
 require('dotenv').config();
+const auth = require('../router/Authorization');
 const userRouter = require('../router/userRouter');
-
+const guestRouter = require('../router/guestRouter');
 const app = express();
 
 
 app.use(express.json());
 app.use('/users', userRouter);
+app.use('/ehotel/guest', auth.verifyUser, guestRouter);
 
 require('./setup');
 
@@ -204,6 +206,4 @@ test('should not login user with without register username', () =>{
     })
 
 })
-
-
 })

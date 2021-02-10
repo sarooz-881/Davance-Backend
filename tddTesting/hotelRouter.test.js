@@ -109,7 +109,7 @@ beforeAll(() => {
              expect(res.statusCode).toBe(201);
          })
      })
-     
+    
     test('should be able to get hotel', ()=> {
         return request (app).get('/Hotel')
         .set('authorization', token)
