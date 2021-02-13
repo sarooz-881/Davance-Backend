@@ -103,6 +103,7 @@ beforeAll(() => {
     })
 })
 
+
 describe('Guest router test', ()=> {
     test('Should be able to register guest details', () => {
         return request(app).post('/ehotel/guest')
@@ -124,6 +125,9 @@ describe('Guest router test', ()=> {
             expect(res.statusCode).toBe(201);
         })
     })
+
+
+    
     test('should be required to get guest', ()=> {
         return request (app).get('/ehotel/guest')
         .then((res)=> {

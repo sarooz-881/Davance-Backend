@@ -91,7 +91,6 @@ beforeAll(() => {
          .send({
             gallery: [],
             room: [],
-            
             hotelName: "bikash53",
             contact: "1234567",
             email: "dhakalbikash0@gmail.com",
@@ -99,12 +98,10 @@ beforeAll(() => {
             address: {
                 street: "4200",
                 state:"3",
-                country:"nepal"
-            },
+                country:"nepal" },
             services: [],
          })
          .then((res)=> {
-        
              hotelID = res.body._id
              expect(res.statusCode).toBe(201);
          })

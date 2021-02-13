@@ -28,6 +28,8 @@ describe('Test of User Route', () => {
                 expect(res.statusCode).toBe(200);
             })
     })
+
+
     test('Password must contain alphabets and numbers to register a user', () => {
         return request(app).post('/users/register')
             .send({

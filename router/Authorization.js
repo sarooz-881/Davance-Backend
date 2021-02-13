@@ -17,9 +17,9 @@ function verifyUser(req, res, next) {
 }
 function verifyGuest(req, res, next) {
   if (!req.user) {
-    let err = new Error("Authentication information not found!");
-    err.status = 401;
-    return next(err);
+    // let err = new Error("Authentication information not found!");
+    // err.status = 401;
+    // return next(err);
 
   } else if (req.user.role !== "guest") {
     let err = new Error("Forbidden!");

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1612931411968" clover="3.2.0">
-  <project timestamp="1612931411968" name="All files">
-    <metrics statements="329" coveredstatements="308" conditionals="68" coveredconditionals="55" methods="114" coveredmethods="112" elements="511" coveredelements="475" complexity="0" loc="329" ncloc="329" packages="4" files="12" classes="12"/>
+<coverage generated="1613185416542" clover="3.2.0">
+  <project timestamp="1613185416542" name="All files">
+    <metrics statements="309" coveredstatements="308" conditionals="64" coveredconditionals="55" methods="113" coveredmethods="112" elements="486" coveredelements="475" complexity="0" loc="309" ncloc="309" packages="4" files="12" classes="12"/>
     <package name="models">
       <metrics statements="18" coveredstatements="18" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       <file name="Guest.js" path="D:\AgileGroup\Davance-Backend\models\Guest.js">
@@ -42,9 +42,9 @@
       </file>
     </package>
     <package name="router">
-      <metrics statements="283" coveredstatements="262" conditionals="54" coveredconditionals="41" methods="109" coveredmethods="107"/>
+      <metrics statements="263" coveredstatements="262" conditionals="50" coveredconditionals="41" methods="108" coveredmethods="107"/>
       <file name="Authorization.js" path="D:\AgileGroup\Davance-Backend\router\Authorization.js">
-        <metrics statements="40" coveredstatements="25" conditionals="16" coveredconditionals="9" methods="5" coveredmethods="4"/>
+        <metrics statements="26" coveredstatements="25" conditionals="12" coveredconditionals="9" methods="4" coveredmethods="4"/>
         <line num="1" count="4" type="stmt"/>
         <line num="4" count="61" type="stmt"/>
         <line num="5" count="61" type="cond" truecount="2" falsecount="0"/>
@@ -58,36 +58,22 @@
         <line num="14" count="60" type="stmt"/>
         <line num="15" count="60" type="stmt"/>
         <line num="19" count="5" type="cond" truecount="1" falsecount="1"/>
-        <line num="20" count="0" type="stmt"/>
-        <line num="21" count="0" type="stmt"/>
-        <line num="22" count="0" type="stmt"/>
         <line num="24" count="5" type="cond" truecount="2" falsecount="0"/>
         <line num="25" count="1" type="stmt"/>
         <line num="26" count="1" type="stmt"/>
         <line num="27" count="1" type="stmt"/>
         <line num="29" count="4" type="stmt"/>
         <line num="33" count="7" type="cond" truecount="1" falsecount="1"/>
-        <line num="34" count="0" type="stmt"/>
-        <line num="35" count="0" type="stmt"/>
         <line num="36" count="0" type="stmt"/>
         <line num="37" count="7" type="cond" truecount="2" falsecount="0"/>
         <line num="38" count="1" type="stmt"/>
         <line num="39" count="1" type="stmt"/>
         <line num="40" count="1" type="stmt"/>
         <line num="42" count="6" type="stmt"/>
-        <line num="46" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="47" count="0" type="stmt"/>
-        <line num="48" count="0" type="stmt"/>
-        <line num="49" count="0" type="stmt"/>
-        <line num="50" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="51" count="0" type="stmt"/>
-        <line num="52" count="0" type="stmt"/>
-        <line num="53" count="0" type="stmt"/>
-        <line num="55" count="0" type="stmt"/>
         <line num="58" count="4" type="stmt"/>
       </file>
       <file name="guestRouter.js" path="D:\AgileGroup\Davance-Backend\router\guestRouter.js">
-        <metrics statements="101" coveredstatements="99" conditionals="10" coveredconditionals="9" methods="51" coveredmethods="50"/>
+        <metrics statements="99" coveredstatements="99" conditionals="10" coveredconditionals="9" methods="51" coveredmethods="50"/>
         <line num="1" count="4" type="stmt"/>
         <line num="2" count="4" type="stmt"/>
         <line num="3" count="4" type="stmt"/>
@@ -106,7 +92,6 @@
         <line num="25" count="1" type="stmt"/>
         <line num="29" count="1" type="stmt"/>
         <line num="33" count="1" type="stmt"/>
-        <line num="36" count="0" type="stmt"/>
         <line num="41" count="1" type="stmt"/>
         <line num="44" count="1" type="stmt"/>
         <line num="51" count="3" type="stmt"/>
@@ -165,7 +150,6 @@
         <line num="232" count="1" type="stmt"/>
         <line num="234" count="1" type="stmt"/>
         <line num="239" count="1" type="stmt"/>
-        <line num="244" count="0" type="stmt"/>
         <line num="250" count="1" type="stmt"/>
         <line num="252" count="1" type="stmt"/>
         <line num="254" count="1" type="stmt"/>
@@ -191,7 +175,7 @@
         <line num="313" count="4" type="stmt"/>
       </file>
       <file name="hotelRouter.js" path="D:\AgileGroup\Davance-Backend\router\hotelRouter.js">
-        <metrics statements="101" coveredstatements="99" conditionals="16" coveredconditionals="13" methods="44" coveredmethods="44"/>
+        <metrics statements="99" coveredstatements="99" conditionals="16" coveredconditionals="13" methods="44" coveredmethods="44"/>
         <line num="1" count="3" type="stmt"/>
         <line num="2" count="3" type="stmt"/>
         <line num="3" count="3" type="stmt"/>
@@ -206,11 +190,9 @@
         <line num="21" count="2" type="stmt"/>
         <line num="22" count="2" type="stmt"/>
         <line num="24" count="2" type="cond" truecount="1" falsecount="1"/>
-        <line num="25" count="0" type="stmt"/>
         <line num="27" count="2" type="stmt"/>
         <line num="28" count="2" type="stmt"/>
         <line num="29" count="2" type="cond" truecount="1" falsecount="1"/>
-        <line num="30" count="0" type="stmt"/>
         <line num="32" count="2" type="stmt"/>
         <line num="33" count="2" type="stmt"/>
         <line num="34" count="1" type="stmt"/>
@@ -295,7 +277,7 @@
         <line num="309" count="3" type="stmt"/>
       </file>
       <file name="userRouter.js" path="D:\AgileGroup\Davance-Backend\router\userRouter.js">
-        <metrics statements="41" coveredstatements="39" conditionals="12" coveredconditionals="10" methods="9" coveredmethods="9"/>
+        <metrics statements="39" coveredstatements="39" conditionals="12" coveredconditionals="10" methods="9" coveredmethods="9"/>
         <line num="1" count="4" type="stmt"/>
         <line num="2" count="4" type="stmt"/>
         <line num="3" count="4" type="stmt"/>
@@ -317,7 +299,6 @@
         <line num="37" count="7" type="stmt"/>
         <line num="45" count="7" type="stmt"/>
         <line num="46" count="7" type="cond" truecount="1" falsecount="1"/>
-        <line num="47" count="0" type="stmt"/>
         <line num="49" count="7" type="stmt"/>
         <line num="62" count="4" type="stmt"/>
         <line num="63" count="9" type="stmt"/>
@@ -334,7 +315,6 @@
         <line num="79" count="7" type="stmt"/>
         <line num="86" count="7" type="stmt"/>
         <line num="87" count="7" type="cond" truecount="1" falsecount="1"/>
-        <line num="88" count="0" type="stmt"/>
         <line num="90" count="7" type="stmt"/>
         <line num="102" count="4" type="stmt"/>
       </file>

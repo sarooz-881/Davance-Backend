@@ -44,7 +44,7 @@ let {username, password, firstName, lastName, email, role } = req.body;
             }
             jwt.sign(payload,process.env.SECRET,  (err, token)=>{
                 if (err){
-                    return next(err);
+                   return next(err);
                 }
                 res.json({
                     status:'Registration Successful',

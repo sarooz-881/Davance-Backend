@@ -22,12 +22,12 @@ router.patch("/geoLocation/:hotelID", async (req, res) => {
   const isValid = updates.every((update) => allowedUpdates.includes(update));
 
   if (!isValid) {
-    return res.status(404).send();
+   return res.status(404).send();
   }
   try {
     const hotel = await Hotel.findById(req.params.hotelID);
     if (!hotel) {
-      return res.status(404).send();
+     return res.status(404).send();
     }
     updates.forEach((update) => (hotel[update] = req.body[update]));
     await hotel.save();
